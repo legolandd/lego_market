@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->enum('role', ['user', 'admin'])->default('user');
-            $table->rememberToken();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->decimal('total_price', 10, 2)->comment('Итоговая стоимость заказа');
+            $table->enum('status', ['new', 'processing', 'delivered'])->default('new')->comment('Статус заказа');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('orders');
     }
 };
