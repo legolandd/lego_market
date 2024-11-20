@@ -13,9 +13,9 @@
         <div class="form-wrapper sign-in">
             <form action="{{route('login')}}" method="POST">
                 @csrf
-                <h2>Авторизация</h2>
+                <h2>Войдите в свою учетную запись</h2>
                 <div class="input-group">
-                    <input type="text" name="email" id="email" required>
+                    <input type="text" name="email" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" required>
                     <label for="email">Почта</label>
                 </div>
                 <div class="input-group">

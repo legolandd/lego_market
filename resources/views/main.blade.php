@@ -10,9 +10,18 @@
 <body>
 <h1>Добро пожаловать</h1>
 
+<a href="{{route('admin.lego_sets.index')}}">Лего-наборы (админ)</a>
+<a href="/lego_sets">Лего-наборы (пользователь)</a>
+
 @if (session())
     <div class="alert alert-success">
         {{session('success')}}
+    </div>
+@endif
+
+@if (session())
+    <div class="alert alert-success">
+        {{session('error')}}
     </div>
 @endif
 
