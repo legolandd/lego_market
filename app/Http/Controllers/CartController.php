@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+
+    public function index(){
+        $cartItems = CartItem::all();
+        $cartTotal = $cartItems->sum(fn($item) => $item->legoSet->price * $item->quantity);
+        return view ('cart.index', compact('cartItems', 'cartTotal'));
+    }
     public function addToCart(Request $request, LegoSet $legoSet)
     {
         $quantity = $request->input('quantity', 1);
@@ -18,19 +24,27 @@ class CartController extends Controller
                 'lego_set_id' => $legoSet->id,
             ],
             [
-                'quantity' => \DB::raw("quantity + $quantity") // Увеличиваем количество
+                'quantity' => \DB::raw("quantity + $quantity")
             ]
         );
 
         return redirect()->back()->with('success', 'Набор добавлен в корзину.');
     }
 
-    public function updateCartItem(Request $request, CartItem $cartItem)
+    public function updateCartItem(Request $request, CartItem $item)
     {
-        $cartItem->update([
+        $item->update([
             'quantity' => $request->input('quantity'),
         ]);
 
-        return redirect()->back()->with('success', 'Количество обновлено.');
+        return redirect()->back();
     }
+
+    public function deleteCartItem(CartItem $item)
+    {
+        $item->delete();
+
+        return redirect()->back()->with('success', 'Товар удалён из корзины');
+    }
+
 }

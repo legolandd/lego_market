@@ -30,6 +30,20 @@
         <li>Количество деталей: {{ $legoSet->piece_count }}</li>
     </ul>
 
+    <!-- Кнопка добавления в корзину -->
+    @auth
+        <form action="{{ route('cart.add', $legoSet) }}" method="POST" class="mb-3">
+            @csrf
+            <div>
+                <label for="quantity">Количество:</label>
+                <input type="number" name="quantity" id="quantity" value="1" min="1">
+            </div>
+            <button type="submit" class="btn btn-success">Добавить в корзину</button>
+        </form>
+    @else
+        <p><a href="{{ route('login') }}">Войдите</a>, чтобы добавить товар в корзину.</p>
+    @endauth
+
     <!-- Отзывы -->
     <h3>Отзывы</h3>
     @foreach($reviews as $review)
