@@ -1,0 +1,111 @@
+/* Этапы */
+.steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.step {
+    flex: 1;
+    text-align: center;
+    font-size: 1rem;
+    color: #999;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.step.active {
+    color: #000;
+    font-weight: bold;
+    border-color: #28a745;
+}
+
+/* Макет корзины */
+.cart-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+/* Колонка: Моя корзина */
+.cart-column {
+    border-right: 1px solid #ddd;
+    padding-right: 20px;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.quantity-selector {
+    margin-left: 10px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.update-btn,
+.delete-btn {
+    display: inline-block;
+    margin-top: 5px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.delete-btn {
+    background-color: #6c757d;
+}
+
+/* Колонка: Оформление заказа */
+.checkout-column {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.checkout-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* Колонка: Готово */
+.summary-column {
+    text-align: center;
+    padding: 20px;
+    border-left: 1px solid #ddd;
+    color: #555;
+}
+
+.summary-text {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    font-weight: 500;
+}

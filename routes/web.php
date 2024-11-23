@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\LegoSetController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\LegoSetUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReviewController;
@@ -26,9 +27,13 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
-Route::get('/lego_sets', [LegoSetUserController::class, 'index'])->name('lego_sets.index');
+Route::get('/', [LegoSetUserController::class, 'index'])->name('lego_sets.index');
 Route::get('/lego_sets/{id}', [LegoSetUserController::class, 'show'])->name('lego_sets.show');
 Route::post('/review/{legoSet}', [ReviewController::class, 'store'])->name('reviews.store');
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::post('/cart/add/{legoSet}', [CartController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/{item}', [CartController::class, 'updateCartItem'])->name('cart.update');
+Route::delete('/cart/{item}', [CartController::class, 'deleteCartItem'])->name('cart.destroy');
 
 Route::get('/admin/lego_sets', [LegoSetController::class, 'index'])->name('admin.lego_sets.index')->middleware('auth')->middleware('admin');
 Route::get('/admin/lego_sets/create', [LegoSetController::class, 'show'])->name('admin.lego_sets.create')->middleware('auth')->middleware('admin');

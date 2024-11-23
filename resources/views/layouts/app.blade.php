@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Главная')</title>
+    @yield('style')
+    <link rel="stylesheet" href="{{asset('css/main.css')}}">
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="header_wrapper">
+            <div class="logo">
+                <a href="/"><img src="{{asset('lego_images/logo.svg')}}"></a>
+            </div>
+            <div class="search">
+                <input type="text" class="search-input">
+                <button type="submit" class="search-button">
+                <img src="{{asset('lego_images/search.svg')}}" class="search-img">
+                </button>
+            </div>
+            <div class="icons">
+                <div class="phone">
+                    <img src="{{asset('lego_images/phone.svg')}}" class="phone-img">
+                    <p>8(900)999-99-99</p>
+                </div>
+                <div class="favorite">
+                    <img src="{{asset('lego_images/favorite.svg')}}">
+                </div>
+                <div class="cart">
+                    <img src="{{asset('lego_images/cart.svg')}}">
+                </div>
+                <div class="login">
+                    <a href="{{route('login')}}">Войти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session())
+    <div class="alert alert-danger">
+        {{session('error')}}
+    </div>
+@endif
+
+<div class="container">
+    @yield('content')
+</div>
+
+</body>
+</html>
