@@ -15,7 +15,7 @@
                         <div class="swiper-wrapper">
                             <!-- Slides -->
                             @foreach($images as $image)
-                            <div class="swiper-slide"><img src="../{{ $image->image_url }}" alt="..." class="slider-image-wrapper"></div>
+                            <div class="swiper-slide"><img src="{{ asset('storage/' . $image->image_url) }}" alt="..." class="slider-image-wrapper"></div>
                             @endforeach
                         </div>
 

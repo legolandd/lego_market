@@ -33,7 +33,7 @@
                     <img src="{{asset('lego_images/favorite.svg')}}">
                 </div>
                 <div class="cart">
-                    <img src="{{asset('lego_images/cart.svg')}}">
+                    <a href="/cart"><img src="{{asset('lego_images/cart.svg')}}"></a>
                 </div>
                 <div class="login">
                     <a href="{{route('login')}}">Войти</a>

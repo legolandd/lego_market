@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\LegoSetController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\LegoSetUserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,9 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/cart/add/{legoSet}', [CartController::class, 'addToCart'])->name('cart.add');
 Route::post('/cart/{item}', [CartController::class, 'updateCartItem'])->name('cart.update');
 Route::delete('/cart/{item}', [CartController::class, 'deleteCartItem'])->name('cart.destroy');
+
+Route::get('/order', [OrderController::class, 'index']);
+Route::post('/order/create', [OrderController::class, 'store'])->name('createOrder');
 
 Route::get('/admin/lego_sets', [LegoSetController::class, 'index'])->name('admin.lego_sets.index')->middleware('auth')->middleware('admin');
 Route::get('/admin/lego_sets/create', [LegoSetController::class, 'show'])->name('admin.lego_sets.create')->middleware('auth')->middleware('admin');
