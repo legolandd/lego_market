@@ -15,7 +15,7 @@
         <div class="carousel">
             @foreach($images as $image)
                 <div>
-                    <img src="../{{ $image->image_url }}" alt="...">
+                    <img src="{{ asset('storage/' . $image->image_url) }}" alt="...">
                 </div>
             @endforeach
         </div>
