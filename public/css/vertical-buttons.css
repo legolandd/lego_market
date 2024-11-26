@@ -1,22 +1,27 @@
-.swiper-button-next:after,
-.swiper-button-prev:after{
-    color: black;
-}
 
-.swiper-button-prev,
-.swiper-button-next {
-    left: 5% !important;
-    transform: translateX(-50%) !important;
-    display: block !important;
-    rotate: 90deg;
+.product-container {
+    display: flex;
+    gap: 135px;
 }
-.swiper-button-prev {
-    top: 5% !important;
+.slider-container {
+    width: 100px;
+    overflow: hidden;
 }
-
-.swiper-button-next {
-    top: 95% !important;
+.slider {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
-.slider-image-wrapper{
-    max-width: 125px;
+.slider img {
+    width: 100%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+.slider img:hover {
+    border-color: #007bff;
+}
+.main-image {
+    object-fit: cover;
+    border: 2px solid #ddd;
 }

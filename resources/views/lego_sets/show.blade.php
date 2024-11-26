@@ -2,28 +2,26 @@
 <head>
     <link rel="stylesheet" href="{{asset('css/vertical-buttons.css')}}">
 </head>
-<body>
-<div class="container">
+@section('content')
     <h1>{{ $legoSet->name }}</h1>
 
     <!-- Слайдер изображений -->
         <div class="carousel">
-                <div>
-                    <!-- Slider main container -->
-                    <div class="swiper">
-                        <!-- Additional required wrapper -->
-                        <div class="swiper-wrapper">
-                            <!-- Slides -->
-                            @foreach($images as $image)
-                            <div class="swiper-slide"><img src="{{ asset('storage/' . $image->image_url) }}" alt="..." class="slider-image-wrapper"></div>
-                            @endforeach
-                        </div>
-
-                        <!-- If we need navigation buttons -->
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
+            <div class="product-container">
+                <!-- Vertical slider -->
+                <div class="slider-container">
+                    <div class="slider">
+                        @foreach($images as $image)
+                            <img src="{{ asset('storage/' . $image->image_url) }}" alt="Product Image" onclick="changeMainImage(this)">
+                        @endforeach
                     </div>
                 </div>
+
+                <!-- Main image -->
+                <div>
+                    <img src="{{ asset('storage/' . $images[0]->image_url ?? '') }}" alt="Main Product Image" id="mainImage" class="main-image">
+                </div>
+            </div>
 
         </div>
 
@@ -85,7 +83,11 @@
             <button type="submit" class="btn btn-primary">Оставить отзыв</button>
         </form>
     @endauth
-</div>
-
-</body>
-</html>
+    <script>
+        // Function to change the main image
+        function changeMainImage(imageElement) {
+            const mainImage = document.getElementById('mainImage');
+            mainImage.src = imageElement.src;
+        }
+    </script>
+@endsection
