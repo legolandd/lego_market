@@ -1,11 +1,6 @@
-<!doctype html>
-<html lang="ru">
+@extends('layouts.app')
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="{{asset('css/vertical-buttons.css')}}">
 </head>
 <body>
 <div class="container">
@@ -13,11 +8,23 @@
 
     <!-- Слайдер изображений -->
         <div class="carousel">
-            @foreach($images as $image)
                 <div>
-                    <img src="../{{ $image->image_url }}" alt="...">
+                    <!-- Slider main container -->
+                    <div class="swiper">
+                        <!-- Additional required wrapper -->
+                        <div class="swiper-wrapper">
+                            <!-- Slides -->
+                            @foreach($images as $image)
+                            <div class="swiper-slide"><img src="../{{ $image->image_url }}" alt="..." class="slider-image-wrapper"></div>
+                            @endforeach
+                        </div>
+
+                        <!-- If we need navigation buttons -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
                 </div>
-            @endforeach
+
         </div>
 
 
@@ -79,5 +86,6 @@
         </form>
     @endauth
 </div>
+
 </body>
 </html>

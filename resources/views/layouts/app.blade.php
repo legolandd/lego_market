@@ -6,6 +6,10 @@
     <title>@yield('title', 'Главная')</title>
     @yield('style')
     <link rel="stylesheet" href="{{asset('css/main.css')}}">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
 </head>
 <body>
 <header>
@@ -53,6 +57,20 @@
 <div class="container">
     @yield('content')
 </div>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    const swiper = new Swiper('.swiper', {
+        direction: "vertical",
+        slidesPerView: 3,
+        spaceBetween: 12,
+        loop: true,
 
+        // Navigation arrows
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+</script>
 </body>
 </html>

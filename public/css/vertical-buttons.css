@@ -1,0 +1,22 @@
+.swiper-button-next:after,
+.swiper-button-prev:after{
+    color: black;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    left: 5% !important;
+    transform: translateX(-50%) !important;
+    display: block !important;
+    rotate: 90deg;
+}
+.swiper-button-prev {
+    top: 5% !important;
+}
+
+.swiper-button-next {
+    top: 95% !important;
+}
+.slider-image-wrapper{
+    max-width: 125px;
+}

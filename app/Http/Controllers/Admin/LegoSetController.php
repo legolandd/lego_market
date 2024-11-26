@@ -91,7 +91,7 @@ class LegoSetController extends Controller
             $legoSet->images()->delete();
             foreach ($request->images as $image) {
                 $url = $image->store('lego_images');
-                $legoSet->images()->create(['image_path' => $url]);
+                $legoSet->images()->create(['image_url' => $url]);
             }
         }
 
