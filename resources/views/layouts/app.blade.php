@@ -72,5 +72,6 @@
         },
     });
 </script>
+@include('layouts.footer')
 </body>
 </html>
