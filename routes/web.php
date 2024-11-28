@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\LegoSetController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\LegoSetUserController;
@@ -46,3 +47,5 @@ Route::get('/admin/lego_sets/edit/{id}', [LegoSetController::class, 'edit'])->na
 Route::post('/admin/lego_sets/create', [LegoSetController::class, 'store'])->name('admin.lego_sets.store')->middleware('auth')->middleware('admin');
 Route::post('/admin/lego_sets/update/{legoSet}', [LegoSetController::class, 'update'])->name('admin.lego_sets.update')->middleware('auth')->middleware('admin');
 Route::delete('/admin/lego_sets/destroy/{legoSet}', [LegoSetController::class, 'destroy'])->name('admin.lego_sets.destroy')->middleware('auth')->middleware('admin');
+
+Route::get('/about', [AboutController::class, 'index'])->name('about');

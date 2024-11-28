@@ -201,6 +201,10 @@ footer .text-center {
 }
 
 @media (max-width: 576px) {
+    .infographics {
+        justify-content: center;
+    }
+
     footer .row > div {
         margin-bottom: 20px;  
         text-align: center;  

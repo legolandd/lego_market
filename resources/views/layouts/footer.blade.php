@@ -47,7 +47,7 @@
 
             <div class="col-md mb-3">
                     <ul>
-                        <li><a href="/">О нас</a> </li>
+                        <li><a href="{{route('about')}}">О нас</a> </li>
                         <li><a href="/">Контакты</a></li>
                         <li><a href="/">Акции</a></li>
                     </ul>
