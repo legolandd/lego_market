@@ -7,6 +7,7 @@ use App\Http\Controllers\LegoSetUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SalesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,3 +50,4 @@ Route::post('/admin/lego_sets/update/{legoSet}', [LegoSetController::class, 'upd
 Route::delete('/admin/lego_sets/destroy/{legoSet}', [LegoSetController::class, 'destroy'])->name('admin.lego_sets.destroy')->middleware('auth')->middleware('admin');
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/sales', [SalesController::class, 'index'])->name('sales');

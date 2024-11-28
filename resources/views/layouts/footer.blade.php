@@ -49,7 +49,7 @@
                     <ul>
                         <li><a href="{{route('about')}}">О нас</a> </li>
                         <li><a href="/">Контакты</a></li>
-                        <li><a href="/">Акции</a></li>
+                        <li><a href="{{route('sales')}}">Акции</a></li>
                     </ul>
             </div>
 
