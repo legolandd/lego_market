@@ -1,13 +1,9 @@
-<!doctype html>
-<html lang="ru">
+@extends('layouts.app')
+@section('title', 'Создание лего-набора')
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="{{asset('css/admin-legosets-create.css')}}">
 </head>
-<body>
+@section('content')
 <h1>Редактировать LEGO набор</h1>
 
 <form action="{{ route('admin.lego_sets.update', $legoSet->id) }}" method="POST" enctype="multipart/form-data">
@@ -48,6 +44,11 @@
     </div>
 
     <div class="form-group">
+        <label>Количество на складе</label>
+        <input type="number" name="stock" class="form-control" value="{{ $legoSet->stock }}" required min="0">
+    </div>
+
+    <div class="form-group">
         <label>Интересы</label>
         <select name="interests[]" class="form-control" multiple>
             @foreach ($interests as $interest)
@@ -57,13 +58,17 @@
     </div>
 
     <div class="form-group">
-        <label>Новинка</label>
-        <input type="checkbox" name="is_new" value="1" {{ $legoSet->is_new ? 'checked' : '' }}>
+        <input type="hidden" name="is_new" value="0">
+        <label>
+            <input type="checkbox" name="is_new" value="1" {{ $legoSet->is_new ? 'checked' : '' }}> Новинка
+        </label>
     </div>
 
     <div class="form-group">
-        <label>На распродаже</label>
-        <input type="checkbox" name="is_sale" value="1" {{ $legoSet->is_sale ? 'checked' : '' }}>
+        <input type="hidden" name="is_sale" value="0">
+        <label>
+            <input type="checkbox" name="is_sale" value="1" {{ $legoSet->is_sale ? 'checked' : '' }}> На распродаже
+        </label>
     </div>
 
     <div class="form-group">
@@ -76,7 +81,7 @@
         <input type="file" name="images[]" class="form-control" multiple>
     </div>
 
-    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    <button type="submit" class="btn btn-success">Сохранить изменения</button>
 </form>
 
 @if ($errors->any())
@@ -86,5 +91,4 @@
         @endforeach
     </ul>
 @endif
-</body>
-</html>
+@endsection

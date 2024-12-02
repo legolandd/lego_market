@@ -1,15 +1,14 @@
-<!doctype html>
-<html lang="ru">
+@extends('layouts.app')
+@section('title', 'Админ.Лего-наборы')
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Админ</title>
+    <link rel="stylesheet" href="{{asset('css/admin-legosets.css')}}">
 </head>
-<body>
+@section('content')
 <h1>LEGO Наборы</h1>
+<div class="buttons">
 <a href="{{ route('admin.lego_sets.create') }}" class="btn btn-primary">Создать новый набор</a>
+<a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Вернуться к админ-панели</a>
+</div>
 
 <table class="table mt-3">
     <thead>
@@ -17,6 +16,7 @@
         <th>Название</th>
         <th>Серия</th>
         <th>Цена</th>
+        <th>Количество</th>
         <th>Новинка</th>
         <th>На распродаже</th>
         <th>Скидка (%)</th>
@@ -29,6 +29,7 @@
             <td>{{ $legoSet->name }}</td>
             <td>{{ $legoSet->series->name }}</td>
             <td>{{ $legoSet->price }}</td>
+            <td>{{ $legoSet->stock }}</td>
             <td>{{ $legoSet->is_new ? 'Да' : 'Нет' }}</td>
             <td>{{ $legoSet->is_sale ? 'Да' : 'Нет' }}</td>
             <td>{{ $legoSet->discount ?? 0 }}</td>
@@ -45,16 +46,4 @@
     </tbody>
 </table>
 
-@if (session())
-    <div class="alert alert-success">
-        {{session('success')}}
-    </div>
-@endif
-
-@if (session())
-    <div class="alert alert-success">
-        {{session('error')}}
-    </div>
-@endif
-</body>
-</html>
+@endsection

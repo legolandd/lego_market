@@ -3,16 +3,41 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
     font-family: "Commissioner", sans-serif;
+    background-color: #fffdfd;
+    color: #333;
 }
 
 :root {
     --red: #CA5331;
+    --light-gray: #D9D9D9;
 }
 
 .container{
     width: 80%;
     margin: 0 auto;
+}
+
+.alert {
+    width: 100%;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+
+.alert-error {
+    background-color: #f2dede;
+    color: #a94442;
 }
 
 .header_wrapper{

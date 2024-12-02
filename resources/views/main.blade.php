@@ -5,7 +5,7 @@
 @section('content')
 <h1>Каталог конструкторов лего</h1>
 
-<p><a href="{{route('admin.lego_sets.index')}}">Лего-наборы (админ)</a></p>
+<p><a href="{{route('admin.dashboard')}}">Админ панель</a></p>
 
 <p><a href="/logout">Выйти</a></p>
 <div class="catalog-container">
