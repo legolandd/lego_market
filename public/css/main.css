@@ -3,10 +3,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Commissioner", sans-serif;
 }
 
 body {
-    font-family: "Commissioner", sans-serif;
     background-color: #fffdfd;
     color: #333;
 }
@@ -19,6 +19,25 @@ body {
 .container{
     width: 80%;
     margin: 0 auto;
+}
+
+.main-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.main-button:hover{
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(202, 83, 49, 0.5);
+    transition: all 0.3s;
 }
 
 .alert {
@@ -43,7 +62,7 @@ body {
 .header_wrapper{
     display: flex;
     justify-content: space-between;
-    margin: 32px 0px;
+    margin: 32px 0;
     align-items: center;
 }
 
@@ -74,6 +93,15 @@ body {
     align-items: center;
 }
 
+.icon{
+    transition: 0.3s;
+}
+
+.icon:hover{
+    scale: 1.1;
+    transition: 0.3s;
+}
+
 .phone{
     width: 50%;
     display: flex;
@@ -81,10 +109,13 @@ body {
 }
 
 .phone-img{
-    width: 15%;
     margin-right: 10px;
 }
 
+.title{
+    font-size: 32px;
+    font-weight: 500;
+}
 
 .catalog-container {
     display: flex;
@@ -119,18 +150,6 @@ body {
     display: block;
     margin-bottom: 5px;
     font-size: 16px;
-}
-
-.apply-filters {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background: var(--red);
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
 }
 
 .catalog {

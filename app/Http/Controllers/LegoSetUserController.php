@@ -14,6 +14,15 @@ class LegoSetUserController extends Controller
     {
         $legoSet = LegoSet::query();
 
+        // Поиск по названию набора и серии
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $legoSet->where('name', 'like', "%$search%")
+                ->orWhereHas('series', function ($query) use ($search) {
+                    $query->where('name', 'like', "%$search%");
+                });
+        }
+
         // Фильтрация по цене
         if ($request->has('min_price') && $request->has('max_price')) {
             $legoSet->whereBetween('price', [$request->min_price, $request->max_price]);

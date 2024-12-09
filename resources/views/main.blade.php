@@ -3,9 +3,7 @@
 @section('title', 'Главная')
 
 @section('content')
-    <div class="container">
-        <h1>Каталог конструкторов лего</h1>
-
+<h1 class="title">Каталог конструкторов лего</h1>
 
         <p><a href="{{route('admin.lego_sets.index')}}">Лего-наборы (админ)</a></p>
         <p><a href="{{route('admin.dashboard')}}">Админ панель</a></p>
@@ -39,7 +37,7 @@
                         @endforeach
                     </div>
 
-                    <!-- Цена -->
+                  <!-- Цена -->
                     <div class="filter-section">
                         <h4>Цена</h4>
                         <label>
@@ -53,25 +51,30 @@
                         <!-- Добавьте остальные диапазоны -->
                     </div>
 
-                    <button type="submit" class="apply-filters">Применить</button>
+                     <button type="submit" class="main-button">Применить</button>
                 </form>
             </aside>
-
-            <main class="catalog">
-                <div class="catalog-grid">
-                    @foreach($legoSets as $legoSet)
-                        <div class="catalog-item">
-                            <a href="{{ route('lego_sets.show', $legoSet->id) }}" class="lego_set_more">
-                                <img src="{{ asset('storage/' . $legoSet->images->first()->image_url) }}" class="card-img-top" alt="{{ $legoSet->name }}">
-                            </a>
-                            <h5>{{ $legoSet->name }}</h5>
-                            <p>{{ $legoSet->price }} ₽</p>
-                            <button class="add-to-cart">Заказать</button>
-                        </div>
+    @if ($legoSets->isEmpty())
+        <p>По запросу "{{ request('search') }}" ничего не найдено.</p>
+    @else
+    <main class="catalog">
+        <div class="catalog-grid">
+            @foreach($legoSets as $legoSet)
+                <div class="catalog-item">
+                    <a href="{{ route('lego_sets.show', $legoSet->id) }}" class="lego_set_more">
+                    <img src="{{ asset('storage/' . $legoSet->images->first()->image_url) }}" class="card-img-top" alt="{{ $legoSet->name }}">
+                    </a>
+                    <h5>{{ $legoSet->name }}</h5>
+                    <p>{{ $legoSet->price }} ₽</p>
+                    <button class="add-to-cart">Заказать</button>
+                      </div>
                     @endforeach
                 </div>
                 {{ $legoSets->links() }}
             </main>
         </div>
-    </div>
+        {{ $legoSets->links() }}
+        @endif
+    </main>
+</div>
 @endsection
