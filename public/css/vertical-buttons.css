@@ -1,27 +1,181 @@
-
 .product-container {
     display: flex;
-    gap: 135px;
+    flex-wrap: wrap; /* Для переноса на маленьких экранах */
+    gap: 20px;
+    justify-content: space-between; /* Равномерное распределение */
+    align-items: flex-start;
 }
+
+/* Слайдер */
 .slider-container {
     width: 100px;
-    overflow: hidden;
-}
-.slider {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    position: relative;
 }
-.slider img {
-    width: 100%;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: border-color 0.3s;
+
+.slider-wrapper {
+    width: 100px;
+    height: 330px; /* Высота под 3 картинки: 3 * 100px + 2 * 10px (gap) */
+    overflow: hidden; /* Скрываем обрезанные картинки */
 }
-.slider img:hover {
-    border-color: #007bff;
+
+.slider-images {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Расстояние между картинками */
+    transition: transform 0.3s ease-in-out; /* Плавный скролл */
 }
-.main-image {
+
+.slider-images img {
+    width: 100px;
+    height: 100px;
     object-fit: cover;
-    border: 2px solid #ddd;
+    cursor: pointer;
 }
+
+.arrow {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.arrow:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+/* картинка центральная */
+.main-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+
+.main-image {
+    width: 100%;
+    max-width: 530px;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+/* Правая часть где добавить в корзину и так далее*/
+.product-info {
+    flex: 1;
+    max-width: 300px;
+    background: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.product-info ul {
+    list-style-type: none;
+
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.product-info ul li {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.quantity-container {
+    margin-bottom: 15px;
+}
+
+.quantity-container label {
+    margin-right: 10px;
+}
+
+.btn {
+    padding: 10px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* Адаптация под мобильные устройства */
+@media (max-width: 768px) {
+    .product-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .slider-container {
+        width: 80%;
+    }
+
+    .main-image {
+        max-width: 100%;
+        max-height: 300px;
+    }
+
+    .product-info {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-image {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .slider {
+        width: 80px;
+        max-height: 200px;
+    }
+
+    .product-info {
+        padding: 15px;
+    }
+}
+/* описние характеристики отзывы */
+.tabs{
+
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+.tab-content{
+    background-color: #F1ECEC;
+}
+.tab-content-text{
+    width: 33%;
+    margin: 0 auto;
+    display: none;
+    text-decoration: none;
+}
+
+.tab-content-text:not(.d-none) {
+    display: block;
+}
+.tab-content-text ul{
+    list-style-type: none;
+}
+.tab-content-text ul li{
+    display: flex;
+    justify-content: space-between;
+}
+
+.tab-button{
+    text-decoration: none;
+    background-color: white;
+    border: none;
+    padding: 16px 20px;
+}
+
+.tab-button.active {
+    background-color: #F1ECEC;
+    text-decoration: none;
+}
+
+
+
