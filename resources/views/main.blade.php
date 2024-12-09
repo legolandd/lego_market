@@ -3,7 +3,7 @@
 @section('title', 'Главная')
 
 @section('content')
-<h1>Каталог конструкторов лего</h1>
+<h1 class="title">Каталог конструкторов лего</h1>
 
 <p><a href="{{route('admin.dashboard')}}">Админ панель</a></p>
 
@@ -50,10 +50,12 @@
                 <!-- Добавьте остальные диапазоны -->
             </div>
 
-            <button type="submit" class="apply-filters">Применить</button>
+            <button type="submit" class="main-button">Применить</button>
         </form>
     </aside>
-
+    @if ($legoSets->isEmpty())
+        <p>По запросу "{{ request('search') }}" ничего не найдено.</p>
+    @else
     <main class="catalog">
         <div class="catalog-grid">
             @foreach($legoSets as $legoSet)
@@ -68,6 +70,7 @@
             @endforeach
         </div>
         {{ $legoSets->links() }}
+        @endif
     </main>
 </div>
 @endsection
