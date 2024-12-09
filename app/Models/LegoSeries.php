@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class LegoSeries extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['name'];
 }

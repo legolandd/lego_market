@@ -35,6 +35,7 @@ class LegoSetController extends Controller
             'is_new' => 'boolean',
             'is_sale' => 'boolean',
             'discount' => 'nullable|integer|between:0,100',
+            'stock' => 'required|integer|min:0',
             'images' => 'array',
             'images.*' => 'image|mimes:jpg,jpeg,png|max:2048'
         ]);
@@ -75,6 +76,7 @@ class LegoSetController extends Controller
             'is_new' => 'boolean',
             'is_sale' => 'boolean',
             'discount' => 'nullable|integer|between:0,100',
+            'stock' => 'required|integer|min:0',
             'images' => 'array',
             'images.*' => 'image|mimes:jpg,jpeg,png|max:2048'
         ]);
@@ -92,7 +94,7 @@ class LegoSetController extends Controller
             foreach ($request->images as $image) {
 
                 $url = $image->store('lego_images', 'public');
-         
+
                 $legoSet->images()->create(['image_url' => $url]);
             }
         }
