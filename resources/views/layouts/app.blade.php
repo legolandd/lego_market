@@ -52,6 +52,18 @@
         </div>
     </div>
 </header>
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session())
+    <div class="alert alert-danger">
+        {{session('error')}}
+    </div>
+@endif
+
 <div class="container">
     @yield('content')
     @if (session('success'))
@@ -79,9 +91,9 @@
         loop: true,
 
         // Navigation arrows
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
         },
     });
 </script>
