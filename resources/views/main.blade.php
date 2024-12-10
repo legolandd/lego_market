@@ -24,7 +24,7 @@
         </button>
     </div>
 
-    <h1>Каталог конструкторов лего</h1>
+    <h1 class="title">Каталог конструкторов лего</h1>
 {{--        <p><a href="{{route('admin.dashboard')}}">Админ панель</a></p>--}}
     <div class="catalog-container">
         <aside class="filters">
@@ -65,6 +65,7 @@
                     <hr aria-hidden="true">
                 </div>
 
+
                 <!-- Цена -->
                 <div class="filter-section">
                     <h4 class="filter-title">
@@ -90,25 +91,28 @@
             </form>
         </aside>
 
-        <!-- Каталог товаров -->
-        <main class="catalog">
-            <div class="selected-filters">
-                <ul id="selected-filters-list"></ul>
-            </div>
-            <div class="catalog-grid">
-                @foreach($legoSets as $legoSet)
-                    <div class="catalog-item">
-                        <a href="{{ route('lego_sets.show', $legoSet->id) }}" class="lego_set_more">
-                            <img src="{{ asset('storage/' . $legoSet->images->first()->image_url) }}" class="card-img-top" alt="{{ $legoSet->name }}">
-                        </a>
-                        <h5>{{ $legoSet->name }}</h5>
-                        <p>{{ $legoSet->price }} ₽</p>
-                        <button class="add-to-cart">Заказать</button>
-                    </div>
-                @endforeach
-            </div>
-            {{ $legoSets->links() }}
-        </main>
+        @if ($legoSets->isEmpty())
+        <p>По запросу "{{ request('search') }}" ничего не найдено.</p>
+    @else
+    <main class="catalog">
+        <div class="catalog-grid">
+            @foreach($legoSets as $legoSet)
+                <div class="catalog-item">
+                    <a href="{{ route('lego_sets.show', $legoSet->id) }}" class="lego_set_more">
+                    <img src="{{ asset('storage/' . $legoSet->images->first()->image_url) }}" class="card-img-top" alt="{{ $legoSet->name }}">
+                    </a>
+                    <h5>{{ $legoSet->name }}</h5>
+                    <p>{{ $legoSet->price }} ₽</p>
+                    <button class="add-to-cart">Заказать</button>
+                      </div>
+                    @endforeach
+                </div>
+                {{ $legoSets->links() }}
+            </main>
+        </div>
+        {{ $legoSets->links() }}
+        @endif
+    </main>
     </div>
 
     <script>

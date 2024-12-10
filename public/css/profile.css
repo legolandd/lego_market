@@ -1,0 +1,93 @@
+.profile-container {
+    display: flex;
+}
+
+.sidebar {
+    width: 25%;
+    margin-right: 30px;
+}
+
+.title {
+    font-size: 32px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.text{
+    font-size: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.sidebar ul li a.active {
+    color: var(--red);
+}
+
+.profile-content {
+    flex-grow: 1;
+    max-width: 700px;
+}
+
+.profile-form {
+    border: 1px solid #ddd;
+    padding: 40px 100px;
+    border-radius: 8px;
+}
+
+.profile-form fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-form legend {
+    font-size: 24px;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.input-group{
+    display: flex;
+    margin-bottom: 50px;
+    align-items: center;
+}
+
+.input-group label {
+    display: block;
+    width: 40%;
+ }
+
+.profile-form input[type="text"],
+.profile-form input[type="email"],
+.profile-form input[type="tel"] {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #F1ECEC;
+}
+
+.profile-form input[type="text"]:focus,
+.profile-form input[type="email"]:focus,
+.profile-form input[type="tel"]:focus {
+    border-color: var(--red);
+    outline: none;
+    box-shadow: 0 0 10px rgba(202, 83, 49, 0.5);
+}
+
+.save-button:hover {
+    background-color: #b23e1d;
+}
