@@ -52,6 +52,7 @@
         </div>
     </div>
 </header>
+
 <div class="container">
     @yield('content')
     @if (session('success'))

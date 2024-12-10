@@ -26,6 +26,7 @@ Route::get('/', function () {
     return view('main');
 });
 Route::get('/', [LegoSetUserController::class, 'index'])->name('lego_sets.index');
+Route::get('/load-more-lego', [LegoSetUserController::class, 'loadMore'])->name('lego.loadMore');
 
 // Регистрация и авторизация
 Route::get('/login', [AuthController::class, 'showAuthForm'])->name('login');
@@ -52,7 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/review/{legoSet}', [ReviewController::class, 'store'])->name('reviews.store');
 
     // Оформление заказа
-    Route::get('/order', [OrderController::class, 'index']);
+    Route::get('/order', [OrderController::class, 'index'])->name('order');
     Route::post('/order/create', [OrderController::class, 'store'])->name('createOrder');
 });
 

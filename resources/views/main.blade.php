@@ -78,42 +78,28 @@
                                 {{ request('price') == '0-1500' ? 'checked' : '' }}>
                             до 1500 ₽
                         </label>
-                        <label>
-                            <input type="radio" class="filter-option" data-filter="price" data-id="1500-3000" name="price" value="1500-3000"
-                                {{ request('price') == '1500-3000' ? 'checked' : '' }}>
-                            1500-3000 ₽
-                        </label>
-                    </div>
-                    <hr aria-hidden="true">
-                </div>
-
-                <button type="submit" class="apply-filters">Применить</button>
-            </form>
-        </aside>
-
-        @if ($legoSets->isEmpty())
-        <p>По запросу "{{ request('search') }}" ничего не найдено.</p>
-    @else
-    <main class="catalog">
-        <div class="catalog-grid">
-            @foreach($legoSets as $legoSet)
-                <div class="catalog-item">
-                    <a href="{{ route('lego_sets.show', $legoSet->id) }}" class="lego_set_more">
-                    <img src="{{ asset('storage/' . $legoSet->images->first()->image_url) }}" class="card-img-top" alt="{{ $legoSet->name }}">
-                    </a>
-                    <h5>{{ $legoSet->name }}</h5>
-                    <p>{{ $legoSet->price }} ₽</p>
-                    <button class="add-to-cart">Заказать</button>
-                      </div>
                     @endforeach
                 </div>
-                {{ $legoSets->links() }}
+                </div>
+
+                <button type="submit" class="main-button">Применить</button>
+            </form>
+        </aside>
+        @if ($legoSets->isEmpty())
+            <p>По запросу "{{ request('search') }}" ничего не найдено.</p>
+        @else
+            <main class="catalog">
+                <div class="catalog-grid" id="lego-sets-container">
+                    @include('components.lego_sets', ['legoSets' => $legoSets])
+                </div>
+                <div id="loading-indicator" class="loading-indicator hidden">
+                    <div class="loader"></div>
+                </div>
+                <div id="pagination-placeholder"></div>
             </main>
-        </div>
-        {{ $legoSets->links() }}
-        @endif
-    </main>
+            <script src="{{ asset('js/page-loader.js') }}"></script>
     </div>
+    @endif
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
