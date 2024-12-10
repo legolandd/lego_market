@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class LegoSetUserController extends Controller
 {
-    // Просмотр и фильтрация наборов
     public function index(Request $request)
     {
         $legoSet = LegoSet::query();
@@ -21,6 +20,9 @@ class LegoSetUserController extends Controller
                 ->orWhereHas('series', function ($query) use ($search) {
                     $query->where('name', 'like', "%$search%");
                 });
+        } else {
+            // Скрывать товары с нулевым количеством на складе, если это не поиск
+            $legoSet->where('stock', '>', 0);
         }
 
         // Фильтрация по цене
@@ -45,6 +47,20 @@ class LegoSetUserController extends Controller
         $interests = Interest::all();
 
         return view('main', compact('legoSets', 'series', 'interests'));
+    }
+
+    public function loadMore(Request $request)
+    {
+        $page = $request->get('page', 1); // Получаем номер страницы из запроса
+        $legoSets = LegoSet::paginate(10, ['*'], 'page', $page);
+
+        // Генерируем HTML для новых наборов
+        $html = view('components.lego_sets', ['legoSets' => $legoSets])->render();
+
+        return response()->json([
+            'html' => $html,
+            'hasMore' => $legoSets->hasMorePages(), // Проверяем, есть ли еще страницы
+        ]);
     }
 
     public function show($id)

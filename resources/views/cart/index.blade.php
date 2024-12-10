@@ -46,7 +46,7 @@
             <div class="checkout-column">
                 <h3>Товары ({{ count($cartItems) }})</h3>
                 <p>Итого: {{ $cartTotal }} ₽</p>
-                <button class="checkout-btn">Оформить заказ</button>
+                <button class="checkout-btn"><a href="{{route('order')}}">Оформить заказ</a></button>
             </div>
 
             <!-- Колонка: Готово -->

@@ -1,10 +1,6 @@
 .profile-container {
-    display: flex;
-}
-
-.sidebar {
-    width: 25%;
-    margin-right: 30px;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
 }
 
 .title {
@@ -17,41 +13,44 @@
     font-size: 20px;
 }
 
+/* Сайдбар левый */
+.sidebar {
+    margin-right: 30px;
+}
 .sidebar ul {
     list-style: none;
     padding: 0;
 }
-
 .sidebar ul li {
     margin-bottom: 10px;
 }
-
 .sidebar ul li a {
     text-decoration: none;
     color: #333;
 }
-
 .sidebar ul li a.active {
     color: var(--red);
 }
 
-.profile-content {
-    flex-grow: 1;
-    max-width: 700px;
+/* Ссылки-переключатели контента */
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
 }
 
+/* Форма изменения профиля */
 .profile-form {
     border: 1px solid #ddd;
     padding: 40px 100px;
     border-radius: 8px;
 }
-
 .profile-form fieldset {
     border: none;
     margin: 0;
     padding: 0;
 }
-
 .profile-form legend {
     font-size: 24px;
     margin-bottom: 30px;
@@ -63,12 +62,10 @@
     margin-bottom: 50px;
     align-items: center;
 }
-
 .input-group label {
     display: block;
     width: 40%;
  }
-
 .profile-form input[type="text"],
 .profile-form input[type="email"],
 .profile-form input[type="tel"] {
@@ -79,7 +76,6 @@
     border: 1px solid #ccc;
     background-color: #F1ECEC;
 }
-
 .profile-form input[type="text"]:focus,
 .profile-form input[type="email"]:focus,
 .profile-form input[type="tel"]:focus {
@@ -88,6 +84,39 @@
     box-shadow: 0 0 10px rgba(202, 83, 49, 0.5);
 }
 
-.save-button:hover {
-    background-color: #b23e1d;
+/* Контейнер заказов */
+.orders-block{
+    padding: 20px;
+    border-radius: 10px;
+    border:1px solid var(--light-gray);
 }
+
+/* Заказ */
+.order-item {
+    width: 100%;
+    background-color: #f4f4f4;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-collapse: collapse;
+    overflow: hidden;
+}
+.order-item th, .order-item td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.order-item tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Статусы заказа */
+.status-success {
+    font-weight: bold;
+    color: #28a745;
+}
+.status-cancelled {
+    font-weight: bold;
+    color: #dc3545;
+}
+
