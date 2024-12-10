@@ -20,7 +20,7 @@
                         @endforeach
                     </div>
                 </div>
-                <button class="arrow" id="downArrow" onclick="scrollSlider(1)"><img src="{{asset('lego_images/slider-arrow-down.svg')}}" alt=""></button>
+                <button class="arrow" id="downArrow" onclick="scrollSlider(1)"><img src="{{asset('lego_images/slider-arrow-down.svg')}}" alt="slider-arrow"></button>
             </div>
 
             <!-- Центральная часть: главное изображение -->
@@ -33,20 +33,28 @@
 
             <!-- Правая часть: информация о товаре -->
             <div class="product-info">
-                <ul>
-                    <li>Цена: {{ $legoSet->price }} ₽</li>
-                    <li>Рекомендуемый возраст: {{ $legoSet->recommended_age }}+</li>
-                    <li>Количество деталей: {{ $legoSet->piece_count }}</li>
-                </ul>
+                <div>
+                    <h3>{{ $legoSet->price }} ₽</h3>
+                </div>
+                <div class="product-info-p">
+                    <p>Осталось в наличии: {{$legoSet->stock}}</p>
+                    <p>Доставка от 3 дней</p>
+                </div>
+                <div class="product-info-form">
                 @auth
                     <form action="{{ route('cart.add', $legoSet) }}" method="POST" class="mb-3">
                         @csrf
                         <div class="quantity-container">
-                            <label for="quantity">Количество:</label>
-                            <input type="number" name="quantity" id="quantity" value="1" min="1">
+                            <label for="quantity"></label>
+                            <div class="quantity-controls">
+                                <div class="btn-minus" onclick="changeQuantity(-1)"></div>
+                                <input type="number" name="quantity" id="quantity" value="1" min="1" readonly>
+                                <div class="btn-plus" onclick="changeQuantity(1)"></div>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-success">Добавить в корзину</button>
+                        <button type="submit" class="btn-success mt-3">Купить</button>
                     </form>
+                </div>
                 @else
                     <p><a href="{{ route('login') }}">Войдите</a>, чтобы добавить товар в корзину.</p>
                 @endauth
@@ -76,72 +84,122 @@
 
     <div class="tab-content">
         <div class="tab-content-text d-none" id="reviews">
-            <h3>Отзывы</h3>
+            <div class="mama">
+                <h3>Отзывы</h3>
+                <!-- Форма добавления отзыва -->
+                <!-- Кнопка для открытия модального окна -->
+                <button id="openModalButton" class="btn btn-primary">Оставить отзыв</button>
+            </div>
             @foreach($reviews as $review)
-                <div class="review mb-3">
-                    <strong>{{ $review->user->name }}</strong>
-                    @for ($i = 0; $i < $review->rating; $i++)
-                        ⭐
-                    @endfor
-                    <p><strong>Достоинства:</strong> {{ $review->pros }}</p>
-                    <p><strong>Недостатки:</strong> {{ $review->cons }}</p>
-                    <p>{{ $review->comment }}</p>
+                <div class="review">
+                    <div class="review-rating">
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= $review->rating)
+                                <img src="{{ asset('lego_images/star-fill.svg') }}" alt="Filled Star">
+                            @else
+                                <img src="{{ asset('lego_images/star-no-fill.svg') }}" alt="Empty Star">
+                            @endif
+                        @endfor
+                    </div>
+                    <div class="pluses review-blocks">
+                    <p><b>Плюсы</b></p>
+                    <span>{{ $review->pros }}</span>
+                    </div>
+                    <div class="minuses review-blocks">
+                        <p><b>Минусы</b></p>
+                        <span>{{ $review->cons }}</span>
+                    </div><div class="coments review-blocks">
+                        <p><b>Коментарий</b></p>
+                        <span>{{ $review->comment }}</span>
+                    </div>
+                    <span class="first-name">{{ $review->user->name }}</span>
                 </div>
             @endforeach
 
-            <!-- Форма добавления отзыва -->
-            @auth
-                <form action="{{ route('reviews.store', $legoSet) }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="pros">Достоинства:</label>
-                        <input type="text" name="pros" id="pros" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="cons">Недостатки:</label>
-                        <input type="text" name="cons" id="cons" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="comment">Комментарий:</label>
-                        <textarea name="comment" id="comment" class="form-control"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="rating">Рейтинг:</label>
-                        <div id="star-rating" class="d-flex">
+
+
+            <!-- Модальное окно -->
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button" id="closeModalButton"><img src="{{ asset('lego_images/close-modal.svg') }}"></span>
+                    <h2>Добавить отзыв</h2>
+                    <div class="form-group">
+                        <label for="rating">Оценка товара</label>
+                        <div id="star-rating-modal" class="d-flex">
                             @for ($i = 1; $i <= 5; $i++)
                                 <span class="star" data-value="{{ $i }}" style="cursor: pointer;">
-                <img src="{{ asset('lego_images/star-no-fill.svg') }}" alt="Star" class="star-image" width="24" height="24">
-            </span>
+                            <img src="{{ asset('lego_images/star-no-fill.svg') }}" alt="Star" class="star-image" width="24" height="24">
+                        </span>
                             @endfor
                         </div>
-                        <input type="hidden" name="rating" id="rating" value="0">
+                        <input type="hidden" name="rating" id="rating-modal" value="0">
                     </div>
-                    <button type="submit" class="btn btn-primary">Оставить отзыв</button>
-                    @endauth
+                    <form action="{{ route('reviews.store', $legoSet) }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="pros">Плюсы</label>
+                            <input type="text" name="pros" id="pros" class="form-control" required placeholder="Плюсы">
+                        </div>
+                        <div class="form-group">
+                            <label for="cons">Минусы</label>
+                            <input type="text" name="cons" id="cons" class="form-control" required placeholder="Минусы">
+                        </div>
+                        <div class="form-group">
+                            <label for="comment">Комментарий:</label>
+                            <textarea name="comment" id="comment" class="form-control" rows="4" required placeholder="Коментарий"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Отправить отзыв</button>
+                    </form>
+                </div>
+            </div>
 
-                    <script>
-                        document.addEventListener('DOMContentLoaded', () => {
-                            const stars = document.querySelectorAll('#star-rating .star');
-                            const ratingInput = document.getElementById('rating');
 
-                            stars.forEach(star => {
-                                star.addEventListener('click', () => {
-                                    const rating = star.getAttribute('data-value');
-                                    ratingInput.value = rating;
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const modal = document.getElementById('modal');
+                    const openModalButton = document.getElementById('openModalButton');
+                    const closeModalButton = document.getElementById('closeModalButton');
 
-                                    // Обновляем изображения звёзд
-                                    stars.forEach(s => {
-                                        const starImage = s.querySelector('.star-image');
-                                        if (parseInt(s.getAttribute('data-value')) <= rating) {
-                                            starImage.src = "{{ asset('lego_images/star-fill.svg') }}";
-                                        } else {
-                                            starImage.src = "{{ asset('lego_images/star-no-fill.svg') }}";
-                                        }
-                                    });
-                                });
+                    // Открытие модального окна
+                    openModalButton.addEventListener('click', () => {
+                        modal.style.display = 'block';
+                    });
+
+                    // Закрытие модального окна
+                    closeModalButton.addEventListener('click', () => {
+                        modal.style.display = 'none';
+                    });
+
+                    // Закрытие модального окна при клике вне его
+                    window.addEventListener('click', (event) => {
+                        if (event.target === modal) {
+                            modal.style.display = 'none';
+                        }
+                    });
+
+                    // Обработка звезд рейтинга
+                    const stars = document.querySelectorAll('#star-rating-modal .star');
+                    const ratingInput = document.getElementById('rating-modal');
+
+                    stars.forEach(star => {
+                        star.addEventListener('click', () => {
+                            const rating = star.getAttribute('data-value');
+                            ratingInput.value = rating;
+
+                            // Обновляем изображения звёзд
+                            stars.forEach(s => {
+                                const starImage = s.querySelector('.star-image');
+                                if (parseInt(s.getAttribute('data-value')) <= rating) {
+                                    starImage.src = "{{ asset('lego_images/star-fill.svg') }}";
+                                } else {
+                                    starImage.src = "{{ asset('lego_images/star-no-fill.svg') }}";
+                                }
                             });
                         });
-                    </script>
+                    });
+                });
+
+            </script>
 
 
         </div>
@@ -204,6 +262,17 @@
                 });
             });
         });
+        function changeQuantity(change) {
+            const quantityInput = document.getElementById('quantity');
+            const currentValue = parseInt(quantityInput.value) || 0; // Защита от некорректных данных
+            const minValue = parseInt(quantityInput.min) || 1; // Учитываем минимальное значение
+            const newValue = currentValue + change;
+
+            // Убедитесь, что значение не меньше минимального
+            if (newValue >= minValue) {
+                quantityInput.value = newValue;
+            }
+        }
 
     </script>
 @endsection
