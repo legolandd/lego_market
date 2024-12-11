@@ -1,13 +1,13 @@
 .product-container {
     display: flex;
-    gap: 20px;
+    gap: 100px;
     justify-content: space-between; /* Равномерное распределение */
     align-items: flex-start;
 }
 
 /* Слайдер */
 .slider-container {
-    width: 100px;
+    width: 10%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -100,9 +100,16 @@
 }
 
 .btn {
-    padding: 10px 15px;
+    display: block;
+    margin: 0 auto;
+    width: 60%;
+    padding: 10px;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
     font-size: 1rem;
-    cursor: pointer;
+    transition: all 0.3s;
 }
 
 /* Адаптация под мобильные устройства */
@@ -156,9 +163,16 @@
 .tab-content-text{
     width: 33%;
     margin: 0 auto;
+    padding: 20px 0;
     display: none;
     text-decoration: none;
-    padding: 20px 0 0 0;
+}
+.tab-content-text h3{
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.tab-content-text p{
+    font-size: 16px;
 }
 
 .tab-content-text:not(.d-none) {
@@ -176,7 +190,16 @@
     text-decoration: none;
     background-color: white;
     border: none;
+    border-radius: 5px;
     padding: 16px 20px;
+    font-size: 16px;
+    transition: 0.3s all;
+}
+
+.tab-button:hover{
+    box-shadow: 0 0 15px #ccc;
+    cursor: pointer;
+    transition: 0.3s all;
 }
 
 .tab-button.active {
@@ -237,12 +260,20 @@
     color: red;
 }
 .btn-primary{
-   background-color: var(--red);
-    border-radius: 13px;
+    display: block;
+    width: 40%;
+    padding: 10px;
+    background: var(--red);
+    color: #fff;
     border: none;
-    padding: 10px 38px;
-    color: white;
-    font-size: 11px;
+    border-radius: 20px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+.btn-primary:hover {
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(134, 44, 20, 0.5);
+    transition: all 0.3s;
 }
 .mama{
     display: flex;

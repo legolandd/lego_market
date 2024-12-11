@@ -4,7 +4,7 @@ let isLoading = false;
 const container = document.getElementById('lego-sets-container');
 const loadingIndicator = document.getElementById('loading-indicator');
 
-window.addEventListener('scroll', async () => {
+const loadMoreLegoSets = async () => {
     if (isLoading) return;
 
     // Проверяем, достигли ли мы низа страницы
@@ -25,17 +25,20 @@ window.addEventListener('scroll', async () => {
                 container.innerHTML += data.html;
             }
 
-            // Если больше страниц нет, остановить загрузку
+            // Если больше страниц нет, снять обработчик scroll
             if (!data.hasMore) {
-                window.removeEventListener('scroll', arguments.callee);
+                window.removeEventListener('scroll', loadMoreLegoSets);
             }
         } catch (error) {
             console.error('Ошибка при загрузке:', error);
         } finally {
             isLoading = false;
 
+            // Скрыть индикатор загрузки
             loadingIndicator.classList.add('hidden');
         }
     }
-});
+};
 
+// Назначаем обработчик scroll
+window.addEventListener('scroll', loadMoreLegoSets);

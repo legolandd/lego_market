@@ -4,7 +4,7 @@
 </head>
 @section('content')
 
-    <div class="carousel container">
+    <div class="carousel">
         <h1>{{ $legoSet->name }}</h1>
         <div class="product-container">
             <!-- Левая часть: изображения -->
@@ -37,23 +37,23 @@
                     <h3>{{ $legoSet->price }} ₽</h3>
                 </div>
                 <div class="product-info-p">
-                    <p>Осталось в наличии: {{$legoSet->stock}}</p>
+                    <p>Осталось в наличии: {{$legoSet->stock}} шт.</p>
                     <p>Доставка от 3 дней</p>
                 </div>
                 <div class="product-info-form">
-                @auth
-                    <form action="{{ route('cart.add', $legoSet) }}" method="POST" class="mb-3">
-                        @csrf
-                        <div class="quantity-container">
-                            <label for="quantity"></label>
-                            <div class="quantity-controls">
-                                <div class="btn-minus" onclick="changeQuantity(-1)"></div>
-                                <input type="number" name="quantity" id="quantity" value="1" min="1" readonly>
-                                <div class="btn-plus" onclick="changeQuantity(1)"></div>
+                    @auth
+                        <form action="{{ route('cart.add', $legoSet) }}" method="POST">
+                            @csrf
+                            <div class="quantity-container">
+                                <label for="quantity"></label>
+                                <div class="quantity-controls">
+                                    <div class="btn-minus" onclick="changeQuantity(-1)"></div>
+                                    <input type="number" name="quantity" id="quantity" value="1" min="1" readonly>
+                                    <div class="btn-plus" onclick="changeQuantity(1)"></div>
+                                </div>
                             </div>
-                        </div>
-                        <button type="submit" class="btn-success mt-3">Купить</button>
-                    </form>
+                            <button type="submit" class="add-to-cart full-width">Купить</button>
+                        </form>
                 </div>
                 @else
                     <p><a href="{{ route('login') }}">Войдите</a>, чтобы добавить товар в корзину.</p>
@@ -68,7 +68,8 @@
     </div>
     <div class="tab-content">
         <div class="tab-content-text" id="about">
-            <p>Описание товара: {{ $legoSet->description }}</p>
+            <h3>Описание</h3>
+            <p>{{ $legoSet->description }}</p>
         </div>
     </div>
     <div class="tab-content">
@@ -88,7 +89,7 @@
                 <h3>Отзывы</h3>
                 <!-- Форма добавления отзыва -->
                 <!-- Кнопка для открытия модального окна -->
-                <button id="openModalButton" class="btn btn-primary">Оставить отзыв</button>
+                <button id="openModalButton" class="btn-primary">Оставить отзыв</button>
             </div>
             @foreach($reviews as $review)
                 <div class="review">
@@ -102,8 +103,8 @@
                         @endfor
                     </div>
                     <div class="pluses review-blocks">
-                    <p><b>Плюсы</b></p>
-                    <span>{{ $review->pros }}</span>
+                        <p><b>Плюсы</b></p>
+                        <span>{{ $review->pros }}</span>
                     </div>
                     <div class="minuses review-blocks">
                         <p><b>Минусы</b></p>
@@ -148,7 +149,7 @@
                             <label for="comment">Комментарий:</label>
                             <textarea name="comment" id="comment" class="form-control" rows="4" required placeholder="Коментарий"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-success">Отправить отзыв</button>
+                        <button type="submit" class="add-to-cart">Отправить отзыв</button>
                     </form>
                 </div>
             </div>
