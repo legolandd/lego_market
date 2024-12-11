@@ -13,7 +13,7 @@ class LegoSetUserController extends Controller
     {
         $legoSet = LegoSet::query();
 
-        // Поиск по названию набора и серии
+        // Поиск
         if ($request->filled('search')) {
             $search = $request->input('search');
             $legoSet->where('name', 'like', "%$search%")
@@ -21,28 +21,38 @@ class LegoSetUserController extends Controller
                     $query->where('name', 'like', "%$search%");
                 });
         } else {
-            // Скрывать товары с нулевым количеством на складе, если это не поиск
             $legoSet->where('stock', '>', 0);
         }
 
-        // Фильтрация по цене
-        if ($request->has('min_price') && $request->has('max_price')) {
-            $legoSet->whereBetween('price', [$request->min_price, $request->max_price]);
+        // Фильтры
+        if ($request->filled('series')) {
+            $seriesIds = $request->input('series');
+            $legoSet->whereIn('series_id', $seriesIds);
         }
 
-        // Фильтрация по новинкам
-        if ($request->has('is_new')) {
-            $legoSet->where('is_new', $request->is_new);
+        if ($request->filled('interests')) {
+            $interestIds = $request->input('interests');
+            $legoSet->whereHas('interests', function ($query) use ($interestIds) {
+                $query->whereIn('interests.id', $interestIds);
+            });
         }
 
-        // Сортировка
-        if ($request->has('sort_by')) {
-            $sortBy = $request->sort_by;
-            $sortOrder = $request->sort_order ?? 'asc';
-            $legoSet->orderBy($sortBy, $sortOrder);
+        if ($request->filled('price')) {
+            $priceRange = explode('-', $request->input('price'));
+            if (count($priceRange) === 2) {
+                $legoSet->whereBetween('price', [$priceRange[0], $priceRange[1]]);
+            }
         }
 
-        $legoSets = $legoSet->paginate(10);
+        // Пагинация
+        $legoSets = $legoSet->paginate(15);
+
+        if ($request->ajax()) {
+            $legoSets = $legoSet->paginate(100);
+            // Возвращаем только HTML товаров для AJAX-запросов
+            return view('components.lego_sets', ['legoSets' => $legoSets])->render();
+        }
+
         $series = LegoSeries::all();
         $interests = Interest::all();
 

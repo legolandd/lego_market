@@ -386,6 +386,11 @@ input[type="radio"]:checked::after {
     transition: all 0.3s;
 }
 
+.add-to-cart.full-width{
+    width: 100%;
+    margin-top: 20px;
+}
+
 .add-to-cart:hover {
     cursor: pointer;
     box-shadow: 0 0 10px rgba(134, 44, 20, 0.5);

@@ -28,7 +28,7 @@
 {{--        <p><a href="{{route('admin.dashboard')}}">Админ панель</a></p>--}}
     <div class="catalog-container">
         <aside class="filters">
-            <form method="GET" action="{{ route('lego_sets.index') }}">
+            <form method="GET" action="{{ route('lego_sets.index') }}" id="filters-form">
                 <!-- Серия -->
                 <div class="filter-section">
                     <h4 class="filter-title">
@@ -38,7 +38,7 @@
                     <div class="filter-content">
                         @foreach($series as $serie)
                             <label>
-                                <input type="checkbox" class="filter-option" data-filter="series" data-id="{{ $serie->id }}" name="series[]" value="{{ $serie->id }}"
+                                <input type="checkbox" class="filter-option" name="series[]" value="{{ $serie->id }}"
                                     {{ in_array($serie->id, request('series', [])) ? 'checked' : '' }}>
                                 <p>{{ $serie->name }}</p>
                             </label>
@@ -56,7 +56,7 @@
                     <div class="filter-content">
                         @foreach($interests as $interest)
                             <label>
-                                <input type="checkbox" class="filter-option" data-filter="interests" data-id="{{ $interest->id }}" name="interests[]" value="{{ $interest->id }}"
+                                <input type="checkbox" class="filter-option" name="interests[]" value="{{ $interest->id }}"
                                     {{ in_array($interest->id, request('interests', [])) ? 'checked' : '' }}>
                                 {{ $interest->name }}
                             </label>
@@ -73,20 +73,17 @@
                     </h4>
                     <div class="filter-content">
                         <label>
-                            <input type="radio" class="filter-option" data-filter="price" data-id="0-1500" name="price" value="0-1500"
+                            <input type="radio" class="filter-option" name="price" value="0-1500"
                                 {{ request('price') == '0-1500' ? 'checked' : '' }}>
                             до 1500 ₽
                         </label>
                         <label>
-                            <input type="radio" class="filter-option" data-filter="price" data-id="1500-3000" name="price" value="1500-3000"
-                                {{ request('price') == '1500-3000' ? 'checked' : '' }}>
-                            1500-3000 ₽
+                            <input type="radio" class="filter-option" name="price" value="20000-25000"
+                                {{ request('price') == '20000-25000' ? 'checked' : '' }}>
+                            20000 ₽ - 25000 ₽
                         </label>
                     </div>
-                    <hr aria-hidden="true">
                 </div>
-
-                <button type="submit" class="apply-filters">Применить</button>
             </form>
         </aside>
         @if ($legoSets->isEmpty())
@@ -107,7 +104,7 @@
             <script src="{{ asset('js/page-loader.js') }}"></script>
     </div>
     @endif
-
+    <script src="{{asset('js/filters-submit.js')}}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const sliderWrapper = document.querySelector('.slider-wrapper');
