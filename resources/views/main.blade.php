@@ -65,7 +65,6 @@
                     <hr aria-hidden="true">
                 </div>
 
-
                 <!-- Цена -->
                 <div class="filter-section">
                     <h4 class="filter-title">
@@ -78,17 +77,25 @@
                                 {{ request('price') == '0-1500' ? 'checked' : '' }}>
                             до 1500 ₽
                         </label>
-                    @endforeach
-                </div>
+                        <label>
+                            <input type="radio" class="filter-option" data-filter="price" data-id="1500-3000" name="price" value="1500-3000"
+                                {{ request('price') == '1500-3000' ? 'checked' : '' }}>
+                            1500-3000 ₽
+                        </label>
+                    </div>
+                    <hr aria-hidden="true">
                 </div>
 
-                <button type="submit" class="main-button">Применить</button>
+                <button type="submit" class="apply-filters">Применить</button>
             </form>
         </aside>
         @if ($legoSets->isEmpty())
             <p>По запросу "{{ request('search') }}" ничего не найдено.</p>
         @else
             <main class="catalog">
+                <div class="selected-filters">
+                    <ul id="selected-filters-list"></ul>
+                </div>
                 <div class="catalog-grid" id="lego-sets-container">
                     @include('components.lego_sets', ['legoSets' => $legoSets])
                 </div>
