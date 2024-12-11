@@ -90,6 +90,9 @@
             <p>По запросу "{{ request('search') }}" ничего не найдено.</p>
         @else
             <main class="catalog">
+                <div class="selected-filters">
+                    <ul id="selected-filters-list"></ul>
+                </div>
                 <div class="catalog-grid" id="lego-sets-container">
                     @include('components.lego_sets', ['legoSets' => $legoSets])
                 </div>

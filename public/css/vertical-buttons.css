@@ -90,13 +90,29 @@
 .quantity-container {
     margin-bottom: 15px;
 }
+
+.basket-favorite{
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-like-button{
+    border: none;
+    background: none;
+}
+
+.cart-like-button svg:hover path{
+    fill: rgba(188, 39, 39, 1);
+    transition: 0.2s ease-in-out;
+}
+
 .btn-success{
     border: none;
     border-radius: 20px;
     background-color: var(--red);
     color: white;
     padding: 10px 30px;
-    justify-content: space-between;
+    width: 80%;
 }
 
 .btn {
