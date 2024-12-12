@@ -163,6 +163,7 @@
         });
         document.addEventListener('DOMContentLoaded', () => {
             const selectedFiltersList = document.getElementById('selected-filters-list');
+            const filtersForm = document.getElementById('filters-form');
 
             // Обновляем список выбранных фильтров
             const updateSelectedFilters = () => {
@@ -184,9 +185,11 @@
                     deleteIcon.classList.add('delete-icon');
 
                     removeButton.appendChild(deleteIcon);
+
                     removeButton.addEventListener('click', () => {
-                        filter.checked = false;
-                        updateSelectedFilters();
+                        filter.checked = false; // Убираем галочку у фильтра
+                        updateSelectedFilters(); // Обновляем список выбранных фильтров
+                        filtersForm.dispatchEvent(new Event('change')); // Отправляем форму для обновления каталога
                     });
 
                     listItem.appendChild(removeButton);
@@ -196,7 +199,10 @@
 
             // Обработчик изменения состояния фильтров
             document.querySelectorAll('.filter-option').forEach(option => {
-                option.addEventListener('change', updateSelectedFilters);
+                option.addEventListener('change', () => {
+                    updateSelectedFilters();
+                    filtersForm.dispatchEvent(new Event('change')); // Отправляем форму при изменении фильтра
+                });
             });
 
             // Инициализация при загрузке страницы
