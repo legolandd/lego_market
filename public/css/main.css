@@ -244,6 +244,10 @@ footer .text-center {
   border-radius: 20px;
 }
 
+.row {
+    text-align: center;
+}
+
 @media (max-width: 576px) {
     .infographics {
         justify-content: center;
