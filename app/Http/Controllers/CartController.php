@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-
     public function index(){
         $cartItems = CartItem::all();
         $cartTotal = $cartItems->sum(fn($item) => $item->legoSet->price * $item->quantity);
@@ -24,7 +23,7 @@ class CartController extends Controller
                 'lego_set_id' => $legoSet->id,
             ],
             [
-                'quantity' => \DB::raw("quantity + $quantity")
+                'quantity' => $quantity
             ]
         );
 

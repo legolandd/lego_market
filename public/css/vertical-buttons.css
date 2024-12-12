@@ -1,14 +1,13 @@
 .product-container {
     display: flex;
-    flex-wrap: wrap; /* Для переноса на маленьких экранах */
-    gap: 20px;
+    gap: 100px;
     justify-content: space-between; /* Равномерное распределение */
     align-items: flex-start;
 }
 
 /* Слайдер */
 .slider-container {
-    width: 100px;
+    width: 10%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -65,38 +64,68 @@
 
 /* Правая часть где добавить в корзину и так далее*/
 .product-info {
-    flex: 1;
-    max-width: 300px;
-    background: #f9f9f9;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 }
 
-.product-info ul {
+.product-info h3 {
     list-style-type: none;
-
     padding: 0;
-    margin-bottom: 20px;
+    font-size: 36px;
+}
+.product-info-p{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.product-info ul li {
-    margin-bottom: 10px;
-    font-size: 1rem;
+.product-info p{
+    font-size: 15px;
 }
-
+.product-info-form form{
+    display: flex;
+    flex-direction: column;
+}
 .quantity-container {
     margin-bottom: 15px;
 }
 
-.quantity-container label {
-    margin-right: 10px;
+.basket-favorite{
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-like-button{
+    border: none;
+    background: none;
+}
+
+.cart-like-button svg:hover path{
+    fill: rgba(188, 39, 39, 1);
+    transition: 0.2s ease-in-out;
+}
+
+.btn-success{
+    border: none;
+    border-radius: 20px;
+    background-color: var(--red);
+    color: white;
+    padding: 10px 30px;
+    width: 80%;
 }
 
 .btn {
-    padding: 10px 15px;
+    display: block;
+    margin: 0 auto;
+    width: 60%;
+    padding: 10px;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
     font-size: 1rem;
-    cursor: pointer;
+    transition: all 0.3s;
 }
 
 /* Адаптация под мобильные устройства */
@@ -138,11 +167,11 @@
 }
 /* описние характеристики отзывы */
 .tabs{
-
+    width: 33%;
+    margin: 0 auto;
     margin-top: 20px;
     display: flex;
-    justify-content: center;
-    gap: 40px;
+    justify-content: space-between;
 }
 .tab-content{
     background-color: #F1ECEC;
@@ -150,8 +179,16 @@
 .tab-content-text{
     width: 33%;
     margin: 0 auto;
+    padding: 20px 0;
     display: none;
     text-decoration: none;
+}
+.tab-content-text h3{
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.tab-content-text p{
+    font-size: 16px;
 }
 
 .tab-content-text:not(.d-none) {
@@ -169,7 +206,16 @@
     text-decoration: none;
     background-color: white;
     border: none;
+    border-radius: 5px;
     padding: 16px 20px;
+    font-size: 16px;
+    transition: 0.3s all;
+}
+
+.tab-button:hover{
+    box-shadow: 0 0 15px #ccc;
+    cursor: pointer;
+    transition: 0.3s all;
 }
 
 .tab-button.active {
@@ -177,5 +223,165 @@
     text-decoration: none;
 }
 
+.review{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: white;
+    margin-bottom: 20px;
+    padding: 40px;
+
+}
+.review-blocks{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.first-name{
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+/* Стили для модального окна */
+.modal {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%; /* Адаптивная ширина */
+    max-width: 500px; /* Максимальная ширина */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close-button {
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: red;
+}
+.btn-primary{
+    display: block;
+    width: 40%;
+    padding: 10px;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+.btn-primary:hover {
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(134, 44, 20, 0.5);
+    transition: all 0.3s;
+}
+.mama{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.quantity-container {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-controls input {
+    font-size: 18px;
+    height: 50px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: none;
+    border-left: none;
+}
+
+.quantity-controls .btn-minus,
+.quantity-controls .btn-plus {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    position: relative;
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid #ccc;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.quantity-controls .btn-minus {
+    background-image: url("../lego_images/minus.svg");
+    rotate: 180deg;
+}
+
+.quantity-controls .btn-plus {
+    background-image: url("../lego_images/plus.svg");
+}
+
+.quantity-controls .btn-minus:hover,
+.quantity-controls .btn-plus:hover {
+    background-color: #e0e0e0;
+    border-color: #999;
+}
+/* Основные стили для формы */
+.modal-content .form-group {
+    margin-bottom: 20px; /* Отступ между инпутами */
+}
+
+.modal-content input[type="text"],
+.modal-content textarea {
+    background-color: #F1ECEC; /* Задний фон */
+    border: 1px solid #ccc; /* Обводка */
+    border-radius: 5px; /* Округление углов */
+    font-size: 15px; /* Размер текста плейсхолдера */
+    padding: 15px; /* Внутренний отступ */
+    width: calc(100% - 50px); /* Ширина с учетом паддингов */
+    box-sizing: border-box; /* Включаем паддинги и обводку в расчёт ширины */
+}
+
+.modal-content input[type="text"]::placeholder,
+.modal-content textarea::placeholder {
+    font-size: 15px; /* Размер плейсхолдера */
+}
+
+.modal-content textarea {
+    resize: vertical; /* Ограничение изменения размера */
+}
+
+/* Общий паддинг для формы */
+.modal-content {
+    padding: 50px; /* Паддинги для всей формы */
+}
+
+/* Кнопка отправки */
+.modal-content .btn-success {
+    display: block; /* Центровка кнопки */
+    margin: 0 auto;
+    border-radius: 5px; /* Округление углов */
+}
+.modal-content h2{
+    margin-bottom: 40px;
+}
 
 

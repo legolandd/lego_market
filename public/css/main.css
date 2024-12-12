@@ -11,14 +11,77 @@ body {
     color: #333;
 }
 
+header{
+    box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.2); /* Горизонтальное смещение 0, вертикальное 5px, размытие 5px, только снизу */
+    z-index: 1000; /* Убедитесь, что шапка поверх других элементов */
+    position: relative; /* Необходимо для корректного отображения тени */
+    padding-bottom: 5px;
+}
+
 :root {
     --red: #CA5331;
     --light-gray: #D9D9D9;
 }
 
+a{
+    text-decoration: none;
+    color: black;
+}
+
+h1{
+    margin-bottom: 30px;
+}
+
 .container{
     width: 80%;
-    margin: 0 auto;
+    margin: 40px auto;
+}
+.main-slider-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-height: 570px;
+    margin: auto;
+    margin-bottom: 80px;
+}
+
+.slider-wrapper {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+}
+
+.slider-item {
+    flex: 0 0 auto;
+    width: 100%;
+    text-align: center;
+}
+
+.slider-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 18px;
+}
+
+.slider-btn.prev {
+    left: 10px;
+}
+
+.slider-btn.next {
+    right: 10px;
 }
 
 .main-button {
@@ -73,20 +136,24 @@ body {
 .search-input{
     box-shadow: -3px -3px 5px 0 rgba(0,0,0, 25%);
     border: none;
-    width: 40%;
+    width: 60%;
     height: 40px;
+    padding-left: 10px;
+    font-size: 16px;
 }
 
 .search-button{
     border: none;
     background:none;
+    cursor: pointer;
 }
 
 .search-img{
-    transform: translate(-40px, 5px);
+    transform: translate(-150%, 20%)
 }
 
 .icons{
+    position: relative;
     width: 25%;
     display: flex;
     justify-content: space-between;
@@ -95,11 +162,35 @@ body {
 
 .icon{
     transition: 0.3s;
+    position: relative;
 }
 
 .icon:hover{
-    scale: 1.1;
+    scale: 1.05;
     transition: 0.3s;
+}
+
+.icon[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 115%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 1;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.icon[data-tooltip]::after {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
 }
 
 .phone{
@@ -110,6 +201,12 @@ body {
 
 .phone-img{
     margin-right: 10px;
+}
+
+.profile{
+    color: var(--red);
+    font-size: 18px;
+    font-weight: 500;
 }
 
 .title{
@@ -125,10 +222,8 @@ body {
 .filters {
     flex: 1;
     max-width: 300px;
-    background: #f8f9fa;
     padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .filters h3 {
@@ -152,26 +247,143 @@ body {
     font-size: 16px;
 }
 
+
+.filter-content {
+    display: none;
+    margin-top: 10px;
+}
+
+.filter-content label{
+    display: flex;
+    gap: 20px;
+}
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: solid 1px;
+    border-radius: 0;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--red);
+    border-color: var(--red);
+    background-image: url("../lego_images/filter-check-mark.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+input[type="checkbox"]:checked::after {
+    content: '';
+}
+
+input[type="checkbox"]:not(:checked) {
+    background-color: white;
+    border-color: var(--light-gray);
+}
+
+
+input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 0;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+input[type="radio"]:checked {
+    background-color: var(--red);
+    border-color: var(--red);
+    background-image: url("../lego_images/filter-check-mark.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+input[type="radio"]:not(:checked) {
+    background-color: white;
+    border-color: var(--light-gray);
+}
+
+input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+}
+
+
+
+.filter-title {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.arrow {
+    transition: transform 0.3s;
+}
+
+/* Когда фильтр раскрыт */
+.filter-section.open .filter-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.filter-section.open .arrow {
+    transform: rotate(180deg); /* Поворачиваем стрелку на 90 градусов */
+}
+.filter-section hr{
+    border: solid 1px;
+    color: var(--light-gray);
+}
+
 .catalog {
     flex: 3;
 }
 
 .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
 }
 
+@media (max-width: 1600px) {
+    .catalog-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
 .catalog-item {
+    position: relative;
     display: flex;
+    gap: 20px;
     flex-direction: column;
     align-items: center;
     text-align: center;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #818080;
     border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.catalog-item h5{
+    font-size: 16px;
+}
+
+.catalog-item p{
+    font-size: 24px;
 }
 
 .catalog-item img {
@@ -180,8 +392,25 @@ body {
     margin-bottom: 10px;
 }
 
+.catalog-item form{
+    width: 100%;
+}
+
+.like-button{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border: none;
+    background: none;
+}
+.like-button svg:hover path{
+    fill: rgba(188, 39, 39, 1);
+    transition: 0.2s ease-in-out;
+}
+
 .add-to-cart {
     display: block;
+    margin: 0 auto;
     width: 60%;
     padding: 10px;
     background: var(--red);
@@ -189,13 +418,139 @@ body {
     border: none;
     border-radius: 20px;
     font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.add-to-cart.full-width{
+    width: 100%;
+    margin-top: 20px;
+}
+
+.add-to-cart:hover {
     cursor: pointer;
+    box-shadow: 0 0 10px rgba(134, 44, 20, 0.5);
+    transition: all 0.3s;
+}
+
+.add-to-cart.disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
 }
 
 .lego_set_more{
     width: 100%;
     height: 100%;
     text-decoration: none;
+}
+
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.loading-indicator.hidden {
+    display: none !important;
+    opacity: 0; /* На всякий случай, чтобы не мешало */
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    border: 4px solid transparent;
+    border-top: 4px solid var(--red);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 50px;
+    aspect-ratio: 1;
+    display:grid;
+    -webkit-mask: conic-gradient(from 15deg,#0000,#000);
+    animation: l26 1s infinite steps(12);
+}
+.loader,
+.loader:before,
+.loader:after{
+    background:
+        radial-gradient(closest-side at 50% 12.5%,
+        #f03355 96%,#0000) 50% 0/20% 80% repeat-y,
+        radial-gradient(closest-side at 12.5% 50%,
+        #f03355 96%,#0000) 0 50%/80% 20% repeat-x;
+}
+.loader:before,
+.loader:after {
+    content: "";
+    grid-area: 1/1;
+    transform: rotate(30deg);
+}
+.loader:after {
+    transform: rotate(60deg);
+}
+
+@keyframes l26 {
+    100% {transform:rotate(1turn)}
+}
+
+.selected-filters {
+    margin-bottom: 20px;
+}
+
+.selected-filters h4 {
+    margin: 0;
+}
+
+#selected-filters-list {
+    display: flex;
+    gap: 20px;
+
+}
+
+#selected-filters-list li {
+    background-color: var(--red);
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: white;
+}
+
+.remove-filter {
+    list-style: none;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+/* Эффект исчезновения */
+.fade-out {
+    opacity: 0; /* Прозрачность */
+    pointer-events: none; /* Отключить взаимодействие во время анимации */
+    transition: opacity 0.2s ease-in-out; /* Плавный переход */
+}
+
+/* Эффект появления */
+.fade-in {
+    opacity: 1; /* Полностью видимый */
+    transition: opacity 0.2s ease-in-out; /* Плавный переход */
+}
+
+/* По умолчанию контейнер полностью видим */
+#lego-sets-container {
+    transition: opacity 0.2s ease-in-out; /* Убедитесь, что переход применен */
 }
 
 footer {
