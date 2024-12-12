@@ -7,8 +7,10 @@ document.addEventListener("DOMContentLoaded", function () {
     filtersForm.addEventListener("change", async () => {
         const formData = new FormData(filtersForm);
 
-        // Показать индикатор загрузки
         loadingIndicator.classList.remove("hidden");
+
+        // Добавляем класс для плавного исчезновения старого содержимого
+        legoSetsContainer.classList.add("fade-out");
 
         try {
             const queryParams = new URLSearchParams(formData);
@@ -23,10 +25,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (response.ok) {
                 const html = await response.text();
+
+                // После завершения запроса заменяем содержимое
                 legoSetsContainer.innerHTML = html;
 
                 // Удаляем обработчик динамической подгрузки
                 window.removeEventListener("scroll", loadMoreLegoSets);
+
+                // Добавляем класс для плавного появления нового содержимого
+                legoSetsContainer.classList.remove("fade-out");
+                legoSetsContainer.classList.add("fade-in");
+
+                // Убираем класс "fade-in" через время, чтобы анимация не повторялась
+                setTimeout(() => {
+                    legoSetsContainer.classList.remove("fade-in");
+                }, 300);
             } else {
                 console.error("Ошибка загрузки фильтров:", response.statusText);
             }

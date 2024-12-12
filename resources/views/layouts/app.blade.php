@@ -27,25 +27,23 @@
                 </form>
             </div>
             <div class="icons">
-                <div class="icon phone">
+                <div class="icon phone" data-tooltip="Контактный номер">
                     <img src="{{asset('lego_images/phone.svg')}}" class="phone-img">
                     <p>8(900)999-99-99</p>
                 </div>
-                <div class="icon favorite">
+                <div class="icon favorite" data-tooltip="Избранное">
                     <img src="{{asset('lego_images/favorite.svg')}}">
                 </div>
-                <div class="icon cart">
+                <div class="icon cart" data-tooltip="Корзина">
                     <a href="/cart"><img src="{{asset('lego_images/cart.svg')}}"></a>
                 </div>
                 @guest
-                    <!-- Если пользователь не авторизован -->
-                    <div class="login">
-                        <a href="{{ route('login') }}">Войти</a>
+                    <div class="login" data-tooltip="Войти">
+                        <a href="{{ route('login') }}" class="profile">Войти</a>
                     </div>
                 @else
-                    <!-- Если пользователь авторизован -->
-                    <div class="login">
-                        <a href="{{ route('profile') }}">{{ auth()->user()->name }}</a>
+                    <div class="login" data-tooltip="Профиль">
+                        <a href="{{ route('profile') }}" class="profile">{{ auth()->user()->name }}</a>
                     </div>
                 @endguest
             </div>
