@@ -19,25 +19,35 @@
                 <a href="/"><img src="{{asset('lego_images/logo.svg')}}"></a>
             </div>
             <div class="search">
-                <input type="text" class="search-input">
-                <button type="submit" class="search-button">
-                <img src="{{asset('lego_images/search.svg')}}" class="search-img">
-                </button>
+                <form method="GET" action="{{ route('lego_sets.index') }}">
+                    <input type="text" name="search" class="search-input" placeholder="Найти наборы или серии...">
+                    <button type="submit" class="search-button">
+                        <img src="{{ asset('lego_images/search.svg') }}" class="search-img" alt="Искать">
+                    </button>
+                </form>
             </div>
             <div class="icons">
-                <div class="phone">
+                <div class="icon phone">
                     <img src="{{asset('lego_images/phone.svg')}}" class="phone-img">
                     <p>8(900)999-99-99</p>
                 </div>
-                <div class="favorite">
+                <div class="icon favorite">
                     <img src="{{asset('lego_images/favorite.svg')}}">
                 </div>
-                <div class="cart">
+                <div class="icon cart">
                     <a href="/cart"><img src="{{asset('lego_images/cart.svg')}}"></a>
                 </div>
-                <div class="login">
-                    <a href="{{route('login')}}">Войти</a>
-                </div>
+                @guest
+                    <!-- Если пользователь не авторизован -->
+                    <div class="login">
+                        <a href="{{ route('login') }}">Войти</a>
+                    </div>
+                @else
+                    <!-- Если пользователь авторизован -->
+                    <div class="login">
+                        <a href="{{ route('profile') }}">{{ auth()->user()->name }}</a>
+                    </div>
+                @endguest
             </div>
         </div>
     </div>
@@ -56,6 +66,21 @@
 
 <div class="container">
     @yield('content')
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-error">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li style="list-style: none">{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 </div>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
@@ -66,9 +91,9 @@
         loop: true,
 
         // Navigation arrows
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
         },
     });
 </script>

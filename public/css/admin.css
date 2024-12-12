@@ -1,0 +1,36 @@
+.wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-card{
+    display: block;
+    width: 30%;
+    text-decoration: none;
+    color: #fff;
+    background-color: #CA5331;
+    border-radius: 10px;
+    border:1px solid var(--light-gray);
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+.admin-card:hover{
+    scale: 1.1;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.admin-card p{
+    font-weight: 300;
+    font-size: 24px;
+    transition: 0.3s;
+}
+
+.admin-card p:hover{
+    font-weight: 500;
+    transition: 0.3s;
+}
+

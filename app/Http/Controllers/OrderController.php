@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CartItem;
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,7 +58,7 @@ class OrderController extends Controller
             }
         }
 
-        Order::create([
+        $order = Order::create([
             'user_id' => Auth::id(),
             'delivery_method' => $validated['delivery_method'],
             'total_price' => $total + $deliveryCost,
@@ -66,6 +67,16 @@ class OrderController extends Controller
             'delivery_time' => $validated['delivery_time'],
             'payment_method' => $validated['payment_method'],
         ]);
+
+        // Добавление товаров в заказ
+        foreach ($cartItems as $cartItem) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'lego_set_id' => $cartItem->lego_set_id,
+                'quantity' => $cartItem->quantity,
+                'price' => $cartItem->legoSet->price,
+            ]);
+        }
 
         session()->forget('cart');
 

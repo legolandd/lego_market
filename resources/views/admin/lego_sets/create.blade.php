@@ -1,13 +1,9 @@
-<!doctype html>
-<html lang="ru">
+@extends('layouts.app')
+@section('title', 'Создание лего-набора')
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Админ</title>
+    <link rel="stylesheet" href="{{asset('css/admin-legosets-create.css')}}">
 </head>
-<body>
+@section('content')
 <h1>Создать новый LEGO набор</h1>
 
 <form action="{{ route('admin.lego_sets.store') }}" method="POST" enctype="multipart/form-data">
@@ -47,6 +43,11 @@
     </div>
 
     <div class="form-group">
+        <label>Количество на складе</label>
+        <input type="number" name="stock" class="form-control" required min="0">
+    </div>
+
+    <div class="form-group">
         <label>Интересы</label>
         <select name="interests[]" class="form-control" multiple>
             @foreach ($interests as $interest)
@@ -54,6 +55,7 @@
             @endforeach
         </select>
     </div>
+
 
     <div class="form-group">
         <label>Новинка</label>
@@ -77,4 +79,4 @@
 
     <button type="submit" class="btn btn-success">Создать набор</button>
 </form>
-</body>
+@endsection

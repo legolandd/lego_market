@@ -11,7 +11,7 @@ class LegoSet extends Model
 
     protected $fillable = [
         'name', 'description', 'series_id', 'price', 'recommended_age',
-        'piece_count', 'is_new', 'is_sale', 'discount'
+        'piece_count', 'is_new', 'is_sale', 'discount', 'stock'
     ];
 
     public function series()
