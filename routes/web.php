@@ -1,14 +1,18 @@
 <?php
 
+
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\LegoSetController;
 use App\Http\Controllers\Admin\OrderAdminController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\LegoSetUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SalesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,6 +53,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart/{item}', [CartController::class, 'updateCartItem'])->name('cart.update');
     Route::delete('/cart/{item}', [CartController::class, 'deleteCartItem'])->name('cart.destroy');
 
+
+Route::post('/admin/lego_sets/create', [LegoSetController::class, 'store'])->name('admin.lego_sets.store')->middleware('auth')->middleware('admin');
+Route::post('/admin/lego_sets/update/{legoSet}', [LegoSetController::class, 'update'])->name('admin.lego_sets.update')->middleware('auth')->middleware('admin');
+Route::delete('/admin/lego_sets/destroy/{legoSet}', [LegoSetController::class, 'destroy'])->name('admin.lego_sets.destroy')->middleware('auth')->middleware('admin');
+
+Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/sales', [SalesController::class, 'index'])->name('sales');
+Route::get('/contacts', [ContactsController::class, 'index'])->name('contacts');
+
     // Отзыв
     Route::post('/review/{legoSet}', [ReviewController::class, 'store'])->name('reviews.store');
 
@@ -74,3 +87,4 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/orders', [OrderAdminController::class, 'index'])->name('admin.orders.index')->middleware('auth')->middleware('admin');
     Route::put('/admin/orders/{order}/status', [OrderAdminController::class, 'updateStatus'])->name('admin.orders.updateStatus')->middleware('auth')->middleware('admin');
 });
+
