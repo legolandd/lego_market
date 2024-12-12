@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\LegoSetController;
 use App\Http\Controllers\Admin\OrderAdminController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\LegoSetUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
@@ -48,6 +49,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart/add/{legoSet}', [CartController::class, 'addToCart'])->name('cart.add');
     Route::post('/cart/{item}', [CartController::class, 'updateCartItem'])->name('cart.update');
     Route::delete('/cart/{item}', [CartController::class, 'deleteCartItem'])->name('cart.destroy');
+
+    // Избранное
+    Route::post('/favorites/{legoSet}', [FavoriteController::class, 'store'])->name('favorites.store');
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    Route::delete('/favorites/{legoSet}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
 
     // Отзыв
     Route::post('/review/{legoSet}', [ReviewController::class, 'store'])->name('reviews.store');

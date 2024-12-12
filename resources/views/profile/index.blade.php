@@ -14,7 +14,6 @@
                         Мои заказы @if ($ordersCount > 0) ({{ $ordersCount }}) @endif
                     </a>
                 </li>
-                <li><a href="#" class="text" data-tab="favorites">Избранное (1)</a></li>
             </ul>
         </aside>
 
@@ -58,34 +57,42 @@
             <div id="orders-tab" class="tab-content">
                 <h2 class="title">Мои заказы</h2>
                 <div class="orders-block">
-                @foreach($orders as $order)
-                    <table class="order-item">
-                        <thead>
-                        <tr>
-                            <th>Номер заказа:</th>
-                            <th>Дата заказа:</th>
-                            <th>Название товара:</th>
-                            <th>Количество:</th>
-                            <th>Цена:</th>
-                            <th>Сумма:</th>
-                            <th>Статус:</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>{{ $order->id }}</td>
-                            <td>{{ $order->created_at->translatedFormat('d F Y') }}</td>
-                            @foreach ($order->items as $item)
-                                <td>{{ $item->legoSet->name }}</td>
-                                <td>{{ $item->quantity }}</td>
-                                <td>{{ $item->price }}</td>
-                            @endforeach
-                            <td>{{ $order->total_price }}</td>
-                            <td><span class="{{ $order->status == 'Получен' ? 'status-success' : 'status-cancelled' }}">{{ $order->status }}</span></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                @endforeach
+                    @foreach($orders as $order)
+                        <table class="order-item">
+                            <thead>
+                            <tr>
+                                <th>Номер заказа:</th>
+                                <th>Дата заказа:</th>
+                                <th>Название товара:</th>
+                                <th>Количество:</th>
+                                <th>Цена:</th>
+                                <th>Сумма:</th>
+                                <th>Статус:</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td rowspan="{{ $order->items->count() }}">{{ $order->id }}</td>
+                                <td rowspan="{{ $order->items->count() }}">{{ $order->created_at->translatedFormat('d F Y') }}</td>
+                            @foreach ($order->items as $index => $item)
+                                @if ($index > 0)
+                                    <tr>
+                                        @endif
+                                        <td>{{ $item->legoSet->name }}</td>
+                                        <td>{{ $item->quantity }}</td>
+                                        <td>{{ $item->price }}</td>
+                                        @if ($index == 0)
+                                            <td rowspan="{{ $order->items->count() }}">{{ $order->total_price }}</td>
+                                            <td rowspan="{{ $order->items->count() }}">
+                                             <span class="{{ $order->status == 'delivered' ? 'status-success' : 'status-cancelled' }}">{{ $order->status }}</span>
+                                            </td>
+                                        @endif
+                                    </tr>
+                                    @endforeach
+                                    </tr>
+                            </tbody>
+                        </table>
+                    @endforeach
                 </div>
             </div>
         </section>

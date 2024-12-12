@@ -19,7 +19,7 @@ header{
 }
 
 :root {
-    --red: #CA5331;
+    --red: #ff4d4d;
     --light-gray: #D9D9D9;
 }
 
@@ -103,24 +103,63 @@ h1{
     transition: all 0.3s;
 }
 
-.alert {
-    width: 100%;
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 16px;
-    text-align: center;
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.alert-success {
-    background-color: #dff0d8;
-    color: #3c763d;
+.toast {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 18px;
+    color: #fff;
+    opacity: 1;
+    animation: fadeIn 0.5s, fadeOut 5s forwards;
 }
 
-.alert-error {
-    background-color: #f2dede;
-    color: #a94442;
+.toast-success {
+    background-color: #4caf50;
+    color: white;
 }
+
+.toast-error {
+    background-color: #f44336;
+    color: white;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+
 
 .header_wrapper{
     display: flex;
@@ -322,8 +361,6 @@ input[type="radio"]:checked::after {
     height: 10px;
 }
 
-
-
 .filter-title {
     cursor: pointer;
     display: flex;
@@ -350,6 +387,32 @@ input[type="radio"]:checked::after {
     color: var(--light-gray);
 }
 
+.sort{
+    display: flex;
+    justify-content: space-between;
+}
+
+.sort-dropdown {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.sort-select {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    appearance: none;
+    background-color: white;
+    cursor: pointer;
+}
+
+.sort-select:focus {
+    outline: none;
+    border-color: #aaa;
+}
+
 .catalog {
     flex: 3;
 }
@@ -374,8 +437,14 @@ input[type="radio"]:checked::after {
     align-items: center;
     text-align: center;
     padding: 10px;
-    border: 1px solid #818080;
+    border: none;
     border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: 0.3s scale;
+}
+
+.catalog-item:hover{
+    scale: 1.02;
 }
 
 .catalog-item h5{

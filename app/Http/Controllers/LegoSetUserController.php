@@ -44,8 +44,33 @@ class LegoSetUserController extends Controller
             }
         }
 
+        // Сортировка
+        if ($request->filled('sort')) {
+            $sortOption = $request->input('sort');
+
+            switch ($sortOption) {
+                case 'oldest':
+                    $legoSet->orderBy('created_at', 'asc'); // Сначала старые
+                    break;
+                case 'newest':
+                    $legoSet->orderBy('created_at', 'desc'); // Сначала новые
+                    break;
+                case 'expensive':
+                    $legoSet->orderBy('price', 'desc'); // Сначала дорогие
+                    break;
+                case 'cheap':
+                    $legoSet->orderBy('price', 'asc'); // Сначала дешевые
+                    break;
+                case 'alphabet':
+                    $legoSet->orderBy('name', 'asc'); // По алфавиту
+                    break;
+            }
+        }
+
         // Пагинация
-        $legoSets = $legoSet->paginate(15);
+        $page = $request->input('page', 1);
+        $legoSets = $legoSet->paginate(15, ['*'], 'page', $page);
+
 
         if ($request->ajax()) {
             $legoSets = $legoSet->paginate(100);
@@ -58,6 +83,7 @@ class LegoSetUserController extends Controller
 
         return view('main', compact('legoSets', 'series', 'interests'));
     }
+
 
     public function loadMore(Request $request)
     {

@@ -24,8 +24,62 @@
         </button>
     </div>
 
-    <h1 class="title">Каталог конструкторов лего</h1>
-{{--        <p><a href="{{route('admin.dashboard')}}">Админ панель</a></p>--}}
+    <div class="sort">
+        <h1 class="title">Каталог конструкторов лего</h1>
+        <div class="sort-dropdown">
+            <select id="sort-options" onchange="applySort()" class="sort-select">
+                <option value="oldest" selected>Сначала старые</option>
+                <option value="newest">Сначала новые</option>
+                <option value="cheap">Сначала дешевые</option>
+                <option value="expensive">Сначала дорогие</option>
+                <option value="alphabet">По алфавиту</option>
+            </select>
+        </div>
+    </div>
+    <script>
+        function applySort() {
+            const sortOption = document.getElementById('sort-options').value;
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Обновляем параметр сортировки и сбрасываем страницу
+            urlParams.set('sort', sortOption);
+            urlParams.set('page', 1);
+
+            const url = `/?${urlParams.toString()}`;
+
+            // Показать индикатор загрузки
+            document.getElementById('loading-indicator').classList.remove('hidden');
+
+            // Отправляем запрос
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка загрузки данных');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    // Очищаем контейнер и обновляем данные
+                    document.getElementById('lego-sets-container').innerHTML = html;
+
+                    // Сбрасываем номер страницы для подгрузки
+                    currentPage = 1;
+
+                    // Скрываем индикатор загрузки
+                    document.getElementById('loading-indicator').classList.add('hidden');
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки данных:', error);
+                    alert('Не удалось загрузить товары. Попробуйте еще раз.');
+                });
+        }
+    </script>
+    {{--        <p><a href="{{route('admin.dashboard')}}">Админ панель</a></p>--}}
     <div class="catalog-container">
         <aside class="filters">
             <form method="GET" action="{{ route('lego_sets.index') }}" id="filters-form">
