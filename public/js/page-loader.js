@@ -17,7 +17,19 @@ const loadMoreLegoSets = async () => {
         currentPage++;
 
         try {
-            const response = await fetch(`/load-more-lego?page=${currentPage}`);
+            // Получаем текущие параметры из URL
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('page', currentPage); // Обновляем номер страницы
+
+            const url = `/load-more-lego?${urlParams.toString()}`;
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            });
+
             const data = await response.json();
 
             // Добавляем новые LEGO-наборы в контейнер
@@ -25,7 +37,7 @@ const loadMoreLegoSets = async () => {
                 container.innerHTML += data.html;
             }
 
-            // Если больше страниц нет, снять обработчик scroll
+            // Если больше страниц нет, отключаем обработчик прокрутки
             if (!data.hasMore) {
                 window.removeEventListener('scroll', loadMoreLegoSets);
             }

@@ -32,7 +32,7 @@
                     <p>8(900)999-99-99</p>
                 </div>
                 <div class="icon favorite" data-tooltip="Избранное">
-                    <img src="{{asset('lego_images/favorite.svg')}}">
+                    <a href="{{route('favorites.index')}}"><img src="{{asset('lego_images/favorite.svg')}}"></a>
                 </div>
                 <div class="icon cart" data-tooltip="Корзина">
                     <a href="/cart"><img src="{{asset('lego_images/cart.svg')}}"></a>
@@ -53,21 +53,7 @@
 
 <div class="container">
     @yield('content')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
 
-    @if ($errors->any())
-        <div class="alert alert-error">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li style="list-style: none">{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 </div>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
@@ -83,6 +69,39 @@
             clickable: true,
         },
     });
+</script>
+<div class="toast-container" id="toast-container"></div>
+<script>
+    // Функция для добавления уведомления
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+
+        // Добавляем уведомление в контейнер
+        container.appendChild(toast);
+
+        // Удаляем уведомление через 5 секунд
+        setTimeout(() => {
+            toast.remove();
+        }, 5000);
+    }
+
+    // Проверяем уведомления из сессии и отображаем их
+    @if (session('success'))
+    showToast("{{ session('success') }}", 'success');
+    @endif
+
+    @if (session('error'))
+    showToast("{{ session('error') }}", 'error');
+    @endif
+
+    @if ($errors->any())
+    @foreach ($errors->all() as $error)
+    showToast("{{ $error }}", 'error');
+    @endforeach
+    @endif
 </script>
 @include('layouts.footer')
 </body>
