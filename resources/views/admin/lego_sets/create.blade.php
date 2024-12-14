@@ -29,17 +29,17 @@
 
     <div class="form-group">
         <label>Цена</label>
-        <input type="number" name="price" class="form-control" required>
+        <input type="number" name="price" class="form-control" min="0" required>
     </div>
 
     <div class="form-group">
         <label>Рекомендуемый возраст</label>
-        <input type="number" name="recommended_age" class="form-control" required>
+        <input type="number" name="recommended_age" class="form-control" required min="1">
     </div>
 
     <div class="form-group">
         <label>Количество деталей</label>
-        <input type="number" name="piece_count" class="form-control" required>
+        <input type="number" name="piece_count" class="form-control" required min="1">
     </div>
 
     <div class="form-group">
@@ -48,12 +48,22 @@
     </div>
 
     <div class="form-group">
-        <label>Интересы</label>
-        <select name="interests[]" class="form-control" multiple>
+        <label>Выберите интересы:</label>
+        <div>
             @foreach ($interests as $interest)
-                <option value="{{ $interest->id }}">{{ $interest->name }}</option>
+                <div class="form-check">
+                    <input
+                        type="checkbox"
+                        name="interests[]"
+                        value="{{ $interest->id }}"
+                        id="interest_{{ $interest->id }}"
+                        class="form-check-input">
+                    <label class="form-check-label" for="interest_{{ $interest->id }}">
+                        {{ $interest->name }}
+                    </label>
+                </div>
             @endforeach
-        </select>
+        </div>
     </div>
 
 

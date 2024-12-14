@@ -70,7 +70,7 @@
 
                 <!-- Дата и время -->
                 <h3>Выберите дату</h3>
-                <input type="date" name="delivery_date">
+                <input type="date" name="delivery_date" id="delivery_date">
 
                 <h3>Выберите время доставки</h3>
                 <select name="delivery_time" required>
@@ -107,4 +107,13 @@
             </div>
         </div>
     </form>
+
+    <script>
+        const today = new Date();
+        today.setDate(today.getDate() + 3);
+
+        const minDate = today.toISOString().split('T')[0];
+
+        document.getElementById('delivery_date').setAttribute('min', minDate);
+    </script>
 @endsection

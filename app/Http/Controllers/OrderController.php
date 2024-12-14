@@ -30,7 +30,6 @@ class OrderController extends Controller
         $cartItems = CartItem::all();
         $total = collect($cartItems)->sum(fn($item) => $item->legoSet->price * $item['quantity']);
         $deliveryCost = 390;
-        try {
             $validated = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string',
@@ -44,8 +43,6 @@ class OrderController extends Controller
             'delivery_time' => 'required|string',
             'payment_method' => 'required|in:cash,card',
         ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {    dd($e->errors());
-        }
 
         $fullAddress = null;
         if ($validated['delivery_method'] === 'courier') {

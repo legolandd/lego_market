@@ -49,12 +49,23 @@
     </div>
 
     <div class="form-group">
-        <label>Интересы</label>
-        <select name="interests[]" class="form-control" multiple>
+        <label>Выберите интересы:</label>
+        <div>
             @foreach ($interests as $interest)
-                <option value="{{ $interest->id }}" {{ $legoSet->interests->contains($interest->id) ? 'selected' : '' }}>{{ $interest->name }}</option>
+                <div class="form-check">
+                    <input
+                        type="checkbox"
+                        name="interests[]"
+                        value="{{ $interest->id }}"
+                        id="interest_{{ $interest->id }}"
+                        class="form-check-input"
+                        {{ $legoSet->interests->contains($interest->id) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="interest_{{ $interest->id }}">
+                        {{ $interest->name }}
+                    </label>
+                </div>
             @endforeach
-        </select>
+        </div>
     </div>
 
     <div class="form-group">

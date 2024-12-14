@@ -6,91 +6,105 @@ use App\Models\Interest;
 use App\Models\LegoSeries;
 use App\Models\LegoSet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LegoSetUserController extends Controller
 {
-    public function index(Request $request)
+    // Вынесем общую логику в отдельный метод
+    private function applyFiltersAndSorting($query, Request $request)
     {
-        $legoSet = LegoSet::query();
-
         // Поиск
         if ($request->filled('search')) {
             $search = $request->input('search');
-            $legoSet->where('name', 'like', "%$search%")
-                ->orWhereHas('series', function ($query) use ($search) {
-                    $query->where('name', 'like', "%$search%");
+            $query->where('name', 'like', "%$search%")
+                ->orWhereHas('series', function ($q) use ($search) {
+                    $q->where('name', 'like', "%$search%");
                 });
         } else {
-            $legoSet->where('stock', '>', 0);
+            $query->where('stock', '>', 0);
         }
 
         // Фильтры
         if ($request->filled('series')) {
             $seriesIds = $request->input('series');
-            $legoSet->whereIn('series_id', $seriesIds);
+            $query->whereIn('series_id', $seriesIds);
         }
 
         if ($request->filled('interests')) {
             $interestIds = $request->input('interests');
-            $legoSet->whereHas('interests', function ($query) use ($interestIds) {
-                $query->whereIn('interests.id', $interestIds);
+            $query->whereHas('interests', function ($q) use ($interestIds) {
+                $q->whereIn('interests.id', $interestIds);
             });
         }
 
         if ($request->filled('price')) {
             $priceRange = explode('-', $request->input('price'));
             if (count($priceRange) === 2) {
-                $legoSet->whereBetween('price', [$priceRange[0], $priceRange[1]]);
+                $query->whereBetween('price', [$priceRange[0], $priceRange[1]]);
             }
         }
 
         // Сортировка
         if ($request->filled('sort')) {
             $sortOption = $request->input('sort');
-
             switch ($sortOption) {
                 case 'oldest':
-                    $legoSet->orderBy('created_at', 'asc'); // Сначала старые
+                    $query->orderBy('created_at', 'asc');
                     break;
                 case 'newest':
-                    $legoSet->orderBy('created_at', 'desc'); // Сначала новые
+                    $query->orderBy('created_at', 'desc');
                     break;
                 case 'expensive':
-                    $legoSet->orderBy('price', 'desc'); // Сначала дорогие
+                    $query->orderBy('price', 'desc');
                     break;
                 case 'cheap':
-                    $legoSet->orderBy('price', 'asc'); // Сначала дешевые
+                    $query->orderBy('price', 'asc');
                     break;
                 case 'alphabet':
-                    $legoSet->orderBy('name', 'asc'); // По алфавиту
+                    $query->orderBy('name', 'asc');
                     break;
             }
         }
 
-        // Пагинация
+        return $query;
+    }
+
+    public function index(Request $request)
+    {
         $page = $request->input('page', 1);
+
+        $legoSet = LegoSet::query();
+
+        // Применяем фильтры и сортировку
+        $legoSet = $this->applyFiltersAndSorting($legoSet, $request);
+
+        // Пагинация
         $legoSets = $legoSet->paginate(15, ['*'], 'page', $page);
-
-
-        if ($request->ajax()) {
-            $legoSets = $legoSet->paginate(100);
-            // Возвращаем только HTML товаров для AJAX-запросов
-            return view('components.lego_sets', ['legoSets' => $legoSets])->render();
-        }
 
         $series = LegoSeries::all();
         $interests = Interest::all();
 
+        if ($request->ajax()) {
+            // Возвращаем только HTML товаров для AJAX-запросов
+            return view('components.lego_sets', ['legoSets' => $legoSets])->render();
+        }
+
         return view('main', compact('legoSets', 'series', 'interests'));
     }
-
 
     public function loadMore(Request $request)
     {
         $page = $request->get('page', 1); // Получаем номер страницы из запроса
-        $legoSets = LegoSet::paginate(10, ['*'], 'page', $page);
 
-        // Генерируем HTML для новых наборов
+        $legoSet = LegoSet::query();
+
+        // Применяем фильтры и сортировку
+        $legoSet = $this->applyFiltersAndSorting($legoSet, $request);
+
+        // Пагинация с учетом всех фильтров и сортировки
+        $legoSets = $legoSet->paginate(10, ['*'], 'page', $page);
+
+        // Генерация HTML для новых наборов
         $html = view('components.lego_sets', ['legoSets' => $legoSets])->render();
 
         return response()->json([
@@ -98,6 +112,7 @@ class LegoSetUserController extends Controller
             'hasMore' => $legoSets->hasMorePages(), // Проверяем, есть ли еще страницы
         ]);
     }
+
 
     public function show($id)
     {

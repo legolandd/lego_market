@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 <footer class="main-footer">
     <div class="container">
         <div class="row">
@@ -26,8 +25,8 @@
         <div class="text-center">
                 <p><img src="{{asset('lego_images/phone.svg')}}" alt="Phone" class="mr-2" /></a> 8(999)999-99-99</p>
             </div>
-        </div>   
+        </div>
     </div>
-    
-    
+
+
 </footer>

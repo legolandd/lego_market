@@ -1,5 +1,6 @@
 let currentPage = 1;
 let isLoading = false;
+const itemsPerPage = 15; // Количество элементов на странице, согласно серверу
 
 const container = document.getElementById('lego-sets-container');
 const loadingIndicator = document.getElementById('loading-indicator');
@@ -35,6 +36,17 @@ const loadMoreLegoSets = async () => {
             // Добавляем новые LEGO-наборы в контейнер
             if (data.html) {
                 container.innerHTML += data.html;
+            }
+
+            // Проверка на количество наборов
+            const newSetsCount = (data.html.match(/class="catalog-item"/g) || []).length;
+            console.log('Количество новых наборов:', newSetsCount);
+
+            // Если сервер вернул только один набор или меньше, прекращаем дальнейшую подгрузку
+            if (data.total <= 1) {
+                console.log('Загружено недостаточно наборов. Больше подгружать не нужно.');
+                // Отключаем подгрузку (снимаем обработчик прокрутки)
+                window.removeEventListener('scroll', loadMoreLegoSets);
             }
 
             // Если больше страниц нет, отключаем обработчик прокрутки
