@@ -38,44 +38,32 @@
     </div>
     <script>
         function applySort() {
+            const filtersForm = document.getElementById('filters-form');
+            const formData = new FormData(filtersForm);
             const sortOption = document.getElementById('sort-options').value;
-            const urlParams = new URLSearchParams(window.location.search);
 
-            // Обновляем параметр сортировки и сбрасываем страницу
-            urlParams.set('sort', sortOption);
-            urlParams.set('page', 1);
+            formData.set('sort', sortOption); // Добавляем параметр сортировки
+            formData.set('page', 1); // Сбрасываем страницу на первую
 
-            const url = `/?${urlParams.toString()}`;
+            const queryParams = new URLSearchParams();
+            formData.forEach((value, key) => queryParams.append(key, value));
 
-            // Показать индикатор загрузки
+            const url = `/?${queryParams.toString()}`;
+
             document.getElementById('loading-indicator').classList.remove('hidden');
 
-            // Отправляем запрос
             fetch(url, {
                 method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
             })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Ошибка загрузки данных');
-                    }
-                    return response.text();
-                })
+                .then(response => response.text())
                 .then(html => {
-                    // Очищаем контейнер и обновляем данные
                     document.getElementById('lego-sets-container').innerHTML = html;
-
-                    // Сбрасываем номер страницы для подгрузки
-                    currentPage = 1;
-
-                    // Скрываем индикатор загрузки
                     document.getElementById('loading-indicator').classList.add('hidden');
                 })
                 .catch(error => {
-                    console.error('Ошибка загрузки данных:', error);
-                    alert('Не удалось загрузить товары. Попробуйте еще раз.');
+                    console.error('Ошибка:', error);
+                    alert('Произошла ошибка при загрузке данных.');
                 });
         }
     </script>

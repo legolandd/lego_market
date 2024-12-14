@@ -10,7 +10,9 @@ class CartController extends Controller
 {
     public function index(){
         $cartItems = CartItem::all();
-        $cartTotal = $cartItems->sum(fn($item) => $item->legoSet->price * $item->quantity);
+        $cartTotal = $cartItems->sum(fn($item) =>
+            ($item->legoSet->price - $item->legoSet->price * $item->legoSet->discount/100) * $item->quantity
+            );
         return view ('cart.index', compact('cartItems', 'cartTotal'));
     }
     public function addToCart(Request $request, LegoSet $legoSet)

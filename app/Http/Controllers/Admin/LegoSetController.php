@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class LegoSetController extends Controller
 {
     public function index(){
-        $legoSets = LegoSet::all();
+        $legoSets = LegoSet::OrderBy('created_at', 'desc')->get();
         return view ('admin.lego_sets.index', compact('legoSets'));
     }
 

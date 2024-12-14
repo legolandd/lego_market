@@ -36,7 +36,7 @@ class LegoSetSeeder extends Seeder
             ]);
 
             // Привязываем интересы
-            $legoSet->interests()->attach(fake()->randomElements($interests, fake()->numberBetween(1, 3)));
+            $legoSet->interests()->attach(fake()->randomElements($interests, fake()->numberBetween(1, 2)));
 
             $legoSet->images()->create(['image_url' => 'lego_images/placeholder.jpg']);
         }

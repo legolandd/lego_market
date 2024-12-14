@@ -15,6 +15,9 @@
                     </a>
                 </li>
             </ul>
+            @if(auth()->user()->role == 'admin')
+                <a href="{{route('admin.dashboard')}}" class="main-button" >Админская панель</a>
+            @endif
         </aside>
 
         <section class="profile-content">

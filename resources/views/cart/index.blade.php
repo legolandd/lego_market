@@ -43,13 +43,21 @@
         </div>
 
         <!-- Колонка: Оформление заказа -->
-        <div class="checkout-column">
-            <h3>Товары ({{ count($cartItems) }})</h3>
-            <p>Итого: {{ $cartTotal }} ₽</p>
-            <a href="{{route('order')}}">
-                <button class="main-button">Оформить заказ</button>
-            </a>
-        </div>
+        @if(count($cartItems) != 0)
+            <div class="checkout-column">
+                <h3>Товары ({{ count($cartItems) }})</h3>
+                <p>Итого: {{ $cartTotal }} ₽</p>
+                <a href="{{route('order')}}">
+                    <button class="main-button">Оформить заказ</button>
+                </a>
+            </div>
+        @else
+            <div class="checkout-column">
+                <p>Корзина пуста</p>
+                <a href="{{route('lego_sets.index')}}" class="main-button">За покупками!!!</a>
+            </div>
+        @endif
+
 
         <!-- Колонка: Готово -->
         <div class="summary-column">
