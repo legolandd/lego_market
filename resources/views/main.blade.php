@@ -75,7 +75,9 @@
                 <div class="filter-section">
                     <h4 class="filter-title">
                         Серия
-                        <span class="arrow"><img src="{{asset('lego_images/filter-arrow.svg')}}"></span>
+                        <span class="arrow">
+                            <img src="{{asset('lego_images/filter-arrow.svg')}}" alt="">
+                        </span>
                     </h4>
                     <div class="filter-content">
                         @foreach($series as $serie)
