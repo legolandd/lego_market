@@ -109,6 +109,8 @@
 
 /* Колонка: Оформление заказа */
 .checkout-column {
+    top: 20px;
+    position: sticky;
     display: flex;
     flex-direction: column;
     gap:10px;
@@ -135,4 +137,14 @@
     margin-bottom: 15px;
     font-size: 1rem;
     font-weight: 500;
+}
+
+.out-of-stock {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.out-of-stock-text {
+    color: red;
+    font-weight: bold;
 }

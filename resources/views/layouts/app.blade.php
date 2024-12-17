@@ -23,7 +23,7 @@
 
             <form method="GET" action="{{ route('lego_sets.index') }}" class="search">
                 <input type="search" name="search" class="search-input" placeholder="Найти наборы или серии...">
-                <button type="submit" class="search-button">Найти</button>
+                <button type="submit" class="search-button"><img src="{{asset('lego_images/search.svg')}}" alt="Search"></button>
             </form>
 
             <div class="icons">

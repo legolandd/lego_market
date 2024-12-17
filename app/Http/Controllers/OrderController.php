@@ -13,7 +13,10 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $cartItems = CartItem::all();
+        $cartItems = CartItem::whereHas('legoSet', function ($query) {
+            $query->where('stock', '>', 0);
+        })->get();
+
         $user = Auth::user();
         $total = collect($cartItems)->sum(fn($item) => $item->legoset->price * $item['quantity']);
         $deliveryCost = 390;
@@ -28,10 +31,20 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $cartItems = CartItem::all()->where('user_id', Auth::id());
+        $cartItems = CartItem
+            ::where('user_id', Auth::id())
+            ->whereHas('legoSet', function ($query) {
+                $query->where('stock', '>', 0);
+            })
+            ->get();
+
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('cart.index')->with('error', 'В корзине нет товаров, доступных для заказа.');
+        }
+
         $total = collect($cartItems)->sum(fn($item) => $item->legoSet->price * $item['quantity']);
         $deliveryCost = 390;
-            $validated = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string',
             'email' => 'required|email',

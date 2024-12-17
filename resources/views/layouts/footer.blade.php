@@ -1,6 +1,6 @@
 <footer class="main-footer">
     <div class="container">
-        <div class="row">
+        <div class="row footer-flex">
             <div class="col-md mb-3">
                 <ul>
                     <li>
