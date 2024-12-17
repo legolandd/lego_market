@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CartItem;
+use App\Models\LegoSet;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $cartItems = CartItem::all();
+        $cartItems = CartItem::all()->where('user_id', Auth::id());
         $total = collect($cartItems)->sum(fn($item) => $item->legoSet->price * $item['quantity']);
         $deliveryCost = 390;
             $validated = $request->validate([
@@ -67,12 +68,24 @@ class OrderController extends Controller
 
         // Добавление товаров в заказ
         foreach ($cartItems as $cartItem) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'lego_set_id' => $cartItem->lego_set_id,
-                'quantity' => $cartItem->quantity,
-                'price' => $cartItem->legoSet->price,
-            ]);
+            $legoSet = LegoSet::findOrFail($cartItem->lego_set_id);
+            if ($legoSet->stock - $cartItem->quantity >= $cartItem->quantity) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'lego_set_id' => $cartItem->lego_set_id,
+                    'quantity' => $cartItem->quantity,
+                    'price' => $cartItem->legoSet->price,
+                ]);
+
+                $legoSet->stock -= $cartItem->quantity;
+                $legoSet->save();
+            }
+            else
+                return redirect()->route('order')->with('error', 'Заказ не создан, товара не достаточно');
+        }
+
+        foreach ($cartItems as $cartItem) {
+            $cartItem->delete();
         }
 
         session()->forget('cart');

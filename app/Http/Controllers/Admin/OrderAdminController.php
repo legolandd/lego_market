@@ -27,12 +27,6 @@ class OrderAdminController extends Controller
         $validated = $request->validate([
             'status' => 'required|in:new,processing,shipped,delivered',
         ]);
-       // if ($validated['status'] === 'processing') {
-           // if ($order->items->legoSet->stock >= $order->items->quantity)
-              //  $order->items->legoSet->stock -= $order->items->quantity;
-           // else
-               // return redirect()->back()->with('error', 'Статус не может быть обновлен.');
-       // }
 
         $order->update(['status' => $validated['status']]);
 

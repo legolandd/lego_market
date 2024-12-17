@@ -16,6 +16,9 @@
 /* Сайдбар левый */
 .sidebar {
     margin-right: 30px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
 }
 .sidebar ul {
     list-style: none;

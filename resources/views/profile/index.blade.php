@@ -6,18 +6,22 @@
 @section('content')
     <div class="profile-container">
         <aside class="sidebar">
-            <h2 class="title">Личный кабинет</h2>
-            <ul>
-                <li><a href="#" class="text active" data-tab="profile">Профиль</a></li>
-                <li>
-                    <a href="#" class="text" data-tab="orders">
-                        Мои заказы @if ($ordersCount > 0) ({{ $ordersCount }}) @endif
-                    </a>
-                </li>
-            </ul>
-            @if(auth()->user()->role == 'admin')
-                <a href="{{route('admin.dashboard')}}" class="main-button" >Админская панель</a>
-            @endif
+            <div>
+                <h2 class="title">Личный кабинет</h2>
+                <ul>
+                    <li><a href="#" class="text active" data-tab="profile">Профиль</a></li>
+                    <li>
+                        <a href="#" class="text" data-tab="orders">
+                            Мои заказы @if ($ordersCount > 0) ({{ $ordersCount }}) @endif
+                        </a>
+                    </li>
+                </ul>
+                @if(auth()->user()->role == 'admin')
+                    <a href="{{route('admin.dashboard')}}" class="main-button" >Админская панель</a>
+                @endif
+            </div>
+
+            <a href="{{route('logout')}}" >Выйти</a>
         </aside>
 
         <section class="profile-content">

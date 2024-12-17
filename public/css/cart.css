@@ -1,3 +1,32 @@
+.quantity-form .btn-minus,
+.quantity-form .btn-plus {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    position: relative;
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid #ccc;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.quantity-form .btn-minus {
+    background-image: url("../lego_images/minus.svg");
+    rotate: 180deg;
+}
+
+.quantity-form .btn-plus {
+    background-image: url("../lego_images/plus.svg");
+}
+
+.quantity-form .btn-minus:hover,
+.quantity-form .btn-plus:hover {
+    background-color: #e0e0e0;
+    border-color: #999;
+}
+
 /* Этапы */
 .steps {
     display: flex;

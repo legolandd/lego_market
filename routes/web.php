@@ -33,13 +33,6 @@ Route::get('/', function () {
 Route::get('/', [LegoSetUserController::class, 'index'])->name('lego_sets.index');
 Route::get('/load-more-lego', [LegoSetUserController::class, 'loadMore'])->name('lego.loadMore');
 
-// Регистрация и авторизация
-Route::get('/login', [AuthController::class, 'showAuthForm'])->name('login');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/logout', [AuthController::class, 'logout']);
-
-
 // Подробная страница товара
 Route::get('/lego_sets/{id}', [LegoSetUserController::class, 'show'])->name('lego_sets.show');
 
@@ -47,10 +40,18 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/sales', [SalesController::class, 'index'])->name('sales');
 Route::get('/contacts', [ContactsController::class, 'index'])->name('contacts');
 
+Route::middleware('guest')->group(function () {
+    // Регистрация и авторизация
+    Route::get('/login', [AuthController::class, 'showAuthForm'])->name('login');
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
 Route::middleware('auth')->group(function () {
     // Профиль
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // Корзина
     Route::get('/cart', [CartController::class, 'index'])->name('cart');

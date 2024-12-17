@@ -1,6 +1,6 @@
 <footer class="main-footer">
     <div class="container">
-        <div class="row footer-flex">
+        <div class="row">
             <div class="col-md mb-3">
                 <ul>
                     <li>
@@ -41,9 +41,13 @@
                 </div>
             </div>
             <div class="text-center">
-                <img src="{{asset('lego_images/phone.svg')}}" alt="Phone" class="mr-2" />
-                <a href="tel:89999999999">8(999)999-99-99</a>
+                <a href="tel:89009999999">
+                    <img src="{{asset('lego_images/phone.svg')}}" alt="Phone" class="mr-2" />
+                    <span>8(999)999-99-99</span>
+                </a>
             </div>
         </div>
     </div>
+
+
 </footer>

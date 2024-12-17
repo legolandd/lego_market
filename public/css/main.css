@@ -707,7 +707,7 @@ footer p {
     margin: 0;
 }
 
-footer .text-center {
+footer .text-center a {
     background-color: #fff;
     display: flex;
     justify-content: center;

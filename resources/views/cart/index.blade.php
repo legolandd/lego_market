@@ -17,20 +17,18 @@
         <div class="cart-column">
             @foreach($cartItems as $item)
                 <div class="cart-item">
-
                     <img src="{{ asset('storage/' . $item->legoSet->images->first()->image_url) }}" alt="{{ $item->legoSet->name }}" class="item-image">
                     <div class="item-details">
                         <h4>{{ $item->legoSet->name }}</h4>
                         <p>Цена: {{ $item->legoSet->price }} ₽</p>
                         <form action="{{ route('cart.update', $item) }}" method="POST"  class="quantity-form">
                             @csrf
-                            <label for="quantity-{{ $item->id }}">Количество:</label>
+                            <label for="quantity">Количество:</label>
                             <select name="quantity" id="quantity-{{ $item->id }}" onchange="this.form.submit()" class="quantity-selector">
                                 @for ($i = 1; $i <= 10; $i++)
                                     <option value="{{ $i }}" {{ $item->quantity == $i ? 'selected' : '' }}>{{ $i }}</option>
                                 @endfor
                             </select>
-
                         </form>
                         <form action="{{ route('cart.destroy', $item) }}" method="POST">
                             @csrf
@@ -45,11 +43,14 @@
         <!-- Колонка: Оформление заказа -->
         @if(count($cartItems) != 0)
             <div class="checkout-column">
-                <h3>Товары ({{ count($cartItems) }})</h3>
-                <p>Итого: {{ $cartTotal }} ₽</p>
-                <a href="{{route('order')}}">
-                    <button class="main-button">Оформить заказ</button>
-                </a>
+                <div>
+                    <h3>Товары ({{ count($cartItems) }})</h3>
+                    <p>Итого: {{ $cartTotal }} ₽</p>
+                    <a href="{{route('order')}}">
+                        <button class="main-button">Оформить заказ</button>
+                    </a>
+                </div>
+
             </div>
         @else
             <div class="checkout-column">
@@ -65,4 +66,5 @@
             <p>Спасибо за выбор нашего магазина!</p>
         </div>
     </div>
+
 @endsection
