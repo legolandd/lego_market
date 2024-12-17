@@ -87,6 +87,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/lego_series', [AdminController::class, 'indexSeries'])->name('admin.lego_series.index')->middleware('auth')->middleware('admin');;
     Route::post('/admin/lego_series/create', [AdminController::class, 'storeSeries'])->name('admin.lego_series.store')->middleware('auth')->middleware('admin');;
 
+    Route::get('/admin/address', [AdminController::class, 'indexAddress'])->name('admin.address.index')->middleware('auth')->middleware('admin');;
+    Route::post('/admin/address/create', [AdminController::class, 'storeAddress'])->name('admin.address.store')->middleware('auth')->middleware('admin');;
+
     Route::get('/admin/orders', [OrderAdminController::class, 'index'])->name('admin.orders.index')->middleware('auth')->middleware('admin');
     Route::put('/admin/orders/{order}/status', [OrderAdminController::class, 'updateStatus'])->name('admin.orders.updateStatus')->middleware('auth')->middleware('admin');
 });

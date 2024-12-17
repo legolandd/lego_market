@@ -5,6 +5,47 @@
     <link rel="stylesheet" href="{{asset('css/order.css')}}">
 </head>
 @section('content')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const courier = document.getElementById('courier');
+            const courierAddress = document.getElementById('courierAddress');
+            const pickup = document.getElementById('pickup');
+            const pickupAddress = document.getElementById('pickupAddress');
+
+            const courierInputs = courierAddress.querySelectorAll('input');
+            const pickupInputs = pickupAddress.querySelectorAll('select, input');
+
+            function toggleFields() {
+                if (courier.checked) {
+                    courierAddress.style.display = 'block';
+                    pickupAddress.style.display = 'none';
+
+                    // Устанавливаем required для полей курьерской доставки
+                    courierInputs.forEach(input => input.setAttribute('required', 'required'));
+                    // Убираем required с полей самовывоза
+                    pickupInputs.forEach(input => input.removeAttribute('required'));
+                } else if (pickup.checked) {
+                    courierAddress.style.display = 'none';
+                    pickupAddress.style.display = 'block';
+
+                    // Убираем required с полей курьерской доставки
+                    courierInputs.forEach(input => input.removeAttribute('required'));
+                    // Устанавливаем required для полей самовывоза
+                    pickupInputs.forEach(input => input.setAttribute('required', 'required'));
+                }
+            }
+
+            // Добавляем обработчик на изменение выбора способа доставки
+            document.querySelectorAll('input[type="radio"][name="delivery_method"]').forEach(radio => {
+                radio.addEventListener('change', toggleFields);
+            });
+
+            // Инициализация при загрузке страницы
+            toggleFields();
+        });
+    </script>
+
     <div class="steps">
         <div class="step">1. Моя корзина</div>
         <div class="step active">2. Оформление заказа</div>
@@ -34,37 +75,41 @@
                 <h3>Способ получения</h3>
                 <div class="delivery-methods">
                     <label>
-                        <input type="radio" name="delivery_method" value="courier" checked>
+                        <input type="radio" name="delivery_method" value="courier" id="courier" checked>
                         Доставка курьером - 390 ₽
                     </label>
                     <label>
-                        <input type="radio" name="delivery_method" value="pickup">
+                        <input type="radio" name="delivery_method" id="pickup" value="pickup">
                         Самовывоз - Бесплатно
                     </label>
                 </div>
 
                 <!-- Адрес -->
                 <h3>Адрес доставки</h3>
-                <div class="address-fields">
+                <div class="address-fields" id="courierAddress">
                     <div class="form-group">
                         <label for="city">Город</label>
-                        <select name="address[city]" id="city" required>
-                            <option value="Москва">Москва</option>
-                            <option value="Санкт-Петербург">Санкт-Петербург</option>
-                        </select>
+                        <input type="text" name="address[city]" placeholder="Город" required>
                     </div>
                     <div class="form-group">
-                        <label for="street">Улица</label>
-                        <select name="address[street]" id="street" required>
-                            <option value="Ленина">Ленина</option>
-                            <option value="Советская">Советская</option>
-                        </select>
+                        <label for="street">Улица/Проспект</label>
+                        <input type="text" name="address[street]" placeholder="Улица/Проспект" required>
                     </div>
                     <div class="form-group">
                         <input type="text" name="address[house]" placeholder="Дом" required>
                     </div>
                     <div class="form-group">
                         <input type="text" name="address[flat]" placeholder="Квартира" required>
+                    </div>
+                </div>
+
+                <div class="address-fields" id="pickupAddress" style="display: none">
+                    <div class="form-group">
+                        <select name="pickupAddress">
+                            @foreach($addresses as $address)
+                                <option value="{{$address->id}}">{{$address->address}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 

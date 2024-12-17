@@ -141,7 +141,6 @@
 
 .out-of-stock {
     opacity: 0.6;
-    pointer-events: none;
 }
 
 .out-of-stock-text {

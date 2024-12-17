@@ -34,7 +34,7 @@
                                 </select>
                             </form>
                         @endif
-                        <form action="{{ route('cart.destroy', $item) }}" method="POST">
+                        <form action="{{ route('cart.destroy', $item) }}" method="POST" class="delete">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="delete-btn">Удалить</button>

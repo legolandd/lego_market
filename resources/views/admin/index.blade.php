@@ -14,5 +14,8 @@
         <a href="{{route('admin.orders.index')}}" class="admin-card">
             <p>Заказы</p>
         </a>
+        <a href="{{route('admin.address.index')}}" class="admin-card">
+            <p>Адреса</p>
+        </a>
     </div>
 @endsection

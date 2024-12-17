@@ -14,11 +14,11 @@
                 <li>
                     <a href="#" class="text" data-tab="orders">Мои заказы @if ($ordersCount > 0) ({{ $ordersCount }}) @endif</a>
                 </li>
+                @if(auth()->user()->role == 'admin')
                 <li>
-                    @if(auth()->user()->role == 'admin')
-                        <a href="{{route('admin.dashboard')}}" class="text">Панель администратора</a>
-                    @endif
+                    <a href="{{route('admin.dashboard')}}">Панель администратора</a>
                 </li>
+                @endif
             </ul>
             <a href="{{route('logout')}}" class="logout">Выйти</a>
         </aside>
