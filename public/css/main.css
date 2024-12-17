@@ -292,12 +292,12 @@ h1{
 }
 
 .catalog-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 300px auto;
     gap: 20px;
 }
 
 .filters {
-    flex: 1;
     max-width: 300px;
     padding: 15px;
     border-radius: 10px;
@@ -462,7 +462,7 @@ input[type="radio"]:checked::after {
 
 .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 20px;
 }
 

@@ -73,7 +73,7 @@ class LegoSetUserController extends Controller
     {
         $page = $request->input('page', 1);
 
-        $legoSet = LegoSet::query();
+        $legoSet = LegoSet::query()->with('series');
 
         // Применяем фильтры и сортировку
         $legoSet = $this->applyFiltersAndSorting($legoSet, $request);

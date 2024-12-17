@@ -5,7 +5,7 @@
         <a href="{{ route('lego_sets.show', $legoSet->id) }}" class="lego_set_more">
             <img src="{{ asset('storage/' . $legoSet->images->first()->image_url) }}" class="card-img-top" alt="{{ $legoSet->name }}">
         </a>
-        <h5>{{ $legoSet->name }}</h5>
+        <h5>LEGO {{$legoSet->series->name}} {{ $legoSet->name }}</h5>
         <p>{{$legoSet->price - $legoSet->price * $legoSet->discount/100}} ₽</p>
         @if($legoSet->discount > 0)
             <p class="old-price">{{ $legoSet->price }} ₽</p>

@@ -166,25 +166,60 @@
         padding: 15px;
     }
 }
-/* описние характеристики отзывы */
-.tabs{
-    width: 33%;
-    margin: 0 auto;
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
+/* описание отзывы */
+.info-block {
+    margin-top: 80px;
 }
-.tab-content{
+
+.tabs {
+    margin: 0 300px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.tab-content {
+    padding: 0 300px;
     background-color: #F1ECEC;
 }
-.tab-content-text{
-    width: 33%;
-    margin: 0 auto;
-    padding: 20px 0;
+.tab-content-text {
+    padding: 40px 0;
     display: none;
     text-decoration: none;
 }
-.tab-content-text h3{
+
+.tab-content-text ul {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    justify-content: center;
+}
+
+.tab-content-text ul li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+
+.tab-content-text-image {
+    height: 60px;
+    width: 60px;
+    padding: 10px;
+    background: var(--red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tab-content-text-image img {
+    width: 40px;
+}
+
+.tab-content-text ul li span {
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.tab-content-text h3 {
     font-size: 24px;
     margin-bottom: 10px;
 }
@@ -193,7 +228,9 @@
 }
 
 .tab-content-text:not(.d-none) {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 .tab-content-text ul{
     list-style-type: none;
@@ -207,15 +244,10 @@
     text-decoration: none;
     background-color: white;
     border: none;
-    border-radius: 5px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     padding: 16px 20px;
     font-size: 16px;
-    transition: 0.3s all;
-}
-
-.tab-button:hover{
-    box-shadow: 0 0 15px #ccc;
-    cursor: pointer;
     transition: 0.3s all;
 }
 

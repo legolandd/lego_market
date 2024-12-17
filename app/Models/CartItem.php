@@ -14,5 +14,4 @@ class CartItem extends Model
     public function legoSet(){
         return $this->belongsTo(LegoSet::class);
     }
-
 }

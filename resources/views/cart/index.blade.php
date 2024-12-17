@@ -19,7 +19,7 @@
                 <div class="cart-item {{ $item->legoSet->stock == 0 ? 'out-of-stock' : '' }}">
                     <img src="{{ asset('storage/' . $item->legoSet->images->first()->image_url) }}" alt="{{ $item->legoSet->name }}" class="item-image">
                     <div class="item-details">
-                        <h4>{{ $item->legoSet->name }}</h4>
+                        <h4>LEGO {{$item->legoSet->series->name}} {{ $item->legoSet->name }}</h4>
                         <p>Цена: {{ $item->legoSet->price }} ₽</p>
                         @if($item->legoSet->stock == 0)
                             <p class="out-of-stock-text">Товара нет в наличии</p>

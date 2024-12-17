@@ -95,7 +95,7 @@
                     <ul>
                         @foreach($cartItems as $item)
                             <li>
-                                {{ $item->legoset->name }} - {{ $item->legoset->price }} ₽ x {{ $item['quantity'] }}
+                                LEGO {{$item->legoSet->series->name}} {{$item->legoSet->name}} - {{ $item->legoset->price }} ₽ x {{ $item['quantity'] }}
                             </li>
                         @endforeach
                     </ul>
