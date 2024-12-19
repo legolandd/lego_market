@@ -71,26 +71,35 @@ class LegoSetUserController extends Controller
 
     public function index(Request $request)
     {
+        // Получаем текущую страницу
         $page = $request->input('page', 1);
 
-        $legoSet = LegoSet::query();
+        // Начинаем с основного запроса для LegoSets
+        $legoSet = LegoSet::query()->with('series');
+        $sales = LegoSet::where('stock', '>', 0)->where('is_sale', '1')->get();
+        $news = LegoSet::where('stock', '>', 0)->where('is_new', '1')->get();
 
         // Применяем фильтры и сортировку
         $legoSet = $this->applyFiltersAndSorting($legoSet, $request);
 
-        // Пагинация
+        $page = $request->input('page', 1);
         $legoSets = $legoSet->paginate(15, ['*'], 'page', $page);
 
+        // Загружаем дополнительные данные
         $series = LegoSeries::all();
         $interests = Interest::all();
 
         if ($request->ajax()) {
+            $legoSets = $legoSet->paginate(100);
             // Возвращаем только HTML товаров для AJAX-запросов
             return view('components.lego_sets', ['legoSets' => $legoSets])->render();
         }
 
-        return view('main', compact('legoSets', 'series', 'interests'));
+        return view('main', compact('legoSets', 'series', 'interests', 'sales', 'news'));
     }
+
+
+
 
     public function loadMore(Request $request)
     {
@@ -112,6 +121,8 @@ class LegoSetUserController extends Controller
             'hasMore' => $legoSets->hasMorePages(), // Проверяем, есть ли еще страницы
         ]);
     }
+
+
 
 
     public function show($id)

@@ -47,10 +47,14 @@ h1 {
 }
 
 .buttons{
-    width: 13%;
     display: flex;
-    flex-direction: column;
     gap:15px;
+    align-items: center;
+    justify-content:space-between;
+}
+
+.buttons form.search {
+    width: 40%;
 }
 
 .table {

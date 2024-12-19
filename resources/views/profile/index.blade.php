@@ -2,32 +2,36 @@
 @section('title', 'Админ.Заказы')
 <head>
     <link rel="stylesheet" href="{{asset('css/profile.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 @section('content')
     <div class="profile-container">
         <aside class="sidebar">
             <h2 class="title">Личный кабинет</h2>
             <ul>
-                <li><a href="#" class="text active" data-tab="profile">Профиль</a></li>
                 <li>
-                    <a href="#" class="text" data-tab="orders">
-                        Мои заказы @if ($ordersCount > 0) ({{ $ordersCount }}) @endif
-                    </a>
+                    <a href="#" class="text active" data-tab="profile">Профиль</a>
                 </li>
+                <li>
+                    <a href="#" class="text" data-tab="orders">Мои заказы @if ($ordersCount > 0) ({{ $ordersCount }}) @endif</a>
+                </li>
+                @if(auth()->user()->role == 'admin')
+                <li>
+                    <a href="{{route('admin.dashboard')}}">Панель администратора</a>
+                </li>
+                @endif
             </ul>
-            @if(auth()->user()->role == 'admin')
-                <a href="{{route('admin.dashboard')}}" class="main-button" >Админская панель</a>
-            @endif
+            <a href="{{route('logout')}}" class="logout">Выйти</a>
         </aside>
 
-        <section class="profile-content">
+        <main>
             <div id="profile-tab" class="tab-content active">
                 <h2 class="title">Профиль</h2>
                 <form action="{{ route('profile.update') }}" method="POST" class="profile-form">
                     @csrf
                     @method('PUT')
-                    <fieldset>
-                        <legend>Личная информация</legend>
+                    <div class="profile-form-inputs">
+                        <h2>Личная информация</h2>
                         <div class="input-group">
                             <label for="name" class="text">Имя:</label>
                             <input type="text" id="name" name="name" value="{{ auth()->user()->name }}" required>
@@ -42,16 +46,31 @@
                         </div>
                         <div class="input-group">
                             <label class="text">Пол:</label>
-                            <label>
-                                <input type="radio" name="gender" class="text" value="male" {{ auth()->user()->gender == 'male' ? 'checked' : '' }}>
-                                Мужской
-                            </label>
-                            <label>
-                                <input type="radio" name="gender" class="text" value="female" {{ auth()->user()->gender == 'female' ? 'checked' : '' }}>
-                                Женский
-                            </label>
+                            <div class="checkout-content">
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name="gender"
+                                        class="text"
+                                        value="male"
+                                        {{ auth()->user()->gender == 'male' ? 'checked' : '' }}
+                                    >
+                                    Мужской
+                                </label>
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name="gender"
+                                        class="text"
+                                        value="female"
+                                        {{ auth()->user()->gender == 'female' ? 'checked' : '' }}
+                                    >
+                                    Женский
+                                </label>
+                            </div>
+
                         </div>
-                    </fieldset>
+                    </div>
                     <button type="submit" class="main-button">Сохранить изменения</button>
                 </form>
             </div>
@@ -87,7 +106,7 @@
                                         @if ($index == 0)
                                             <td rowspan="{{ $order->items->count() }}">{{ $order->total_price }}</td>
                                             <td rowspan="{{ $order->items->count() }}">
-                                             <span class="{{ $order->status == 'delivered' ? 'status-success' : 'status-cancelled' }}">{{ $order->status }}</span>
+                                                <span class="{{ $order->status == 'delivered' ? 'status-success' : 'status-cancelled' }}">{{ $order->status }}</span>
                                             </td>
                                         @endif
                                     </tr>
@@ -96,9 +115,10 @@
                             </tbody>
                         </table>
                     @endforeach
+                        {{ $orders->links() }}
                 </div>
             </div>
-        </section>
+        </main>
     </div>
 
     <script src="{{ asset('js/profile-tabs.js') }}"></script>

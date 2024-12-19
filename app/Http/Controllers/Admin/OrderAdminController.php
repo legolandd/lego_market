@@ -27,15 +27,26 @@ class OrderAdminController extends Controller
         $validated = $request->validate([
             'status' => 'required|in:new,processing,shipped,delivered',
         ]);
-       // if ($validated['status'] === 'processing') {
-           // if ($order->items->legoSet->stock >= $order->items->quantity)
-              //  $order->items->legoSet->stock -= $order->items->quantity;
-           // else
-               // return redirect()->back()->with('error', 'Статус не может быть обновлен.');
-       // }
 
-        $order->update(['status' => $validated['status']]);
+        // Проверка последовательности статусов
+        $allowedTransitions = [
+            'new' => ['processing'],
+            'processing' => ['shipped'],
+            'shipped' => ['delivered'],
+            'delivered' => [], // Доставленный заказ не может менять статус
+        ];
+
+        $currentStatus = $order->status;
+        $newStatus = $validated['status'];
+
+        if (!in_array($newStatus, $allowedTransitions[$currentStatus])) {
+            return redirect()->back()->withErrors(['status' => 'Изменение статуса недопустимо.']);
+        }
+
+        // Обновление статуса
+        $order->update(['status' => $newStatus]);
 
         return redirect()->back()->with('success', 'Статус заказа обновлен.');
     }
+
 }

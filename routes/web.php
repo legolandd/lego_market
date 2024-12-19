@@ -33,13 +33,6 @@ Route::get('/', function () {
 Route::get('/', [LegoSetUserController::class, 'index'])->name('lego_sets.index');
 Route::get('/load-more-lego', [LegoSetUserController::class, 'loadMore'])->name('lego.loadMore');
 
-// Регистрация и авторизация
-Route::get('/login', [AuthController::class, 'showAuthForm'])->name('login');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/logout', [AuthController::class, 'logout']);
-
-
 // Подробная страница товара
 Route::get('/lego_sets/{id}', [LegoSetUserController::class, 'show'])->name('lego_sets.show');
 
@@ -47,10 +40,18 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/sales', [SalesController::class, 'index'])->name('sales');
 Route::get('/contacts', [ContactsController::class, 'index'])->name('contacts');
 
+Route::middleware('guest')->group(function () {
+    // Регистрация и авторизация
+    Route::get('/login', [AuthController::class, 'showAuthForm'])->name('login');
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
 Route::middleware('auth')->group(function () {
     // Профиль
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // Корзина
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
@@ -75,7 +76,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware('admin')->group(function () {
 // Админ-панель
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard')->middleware('auth');
-    Route::get('/admin/lego_sets', [LegoSetController::class, 'index'])->name('admin.lego_sets.index')->middleware('auth')->middleware('admin');
+    Route::get('/admin/lego_sets', [LegoSetController::class, 'index'])->name('admin.lego_sets.index')->middleware('auth');
+
     Route::get('/admin/lego_sets/create', [LegoSetController::class, 'show'])->name('admin.lego_sets.create')->middleware('auth')->middleware('admin');
     Route::get('/admin/lego_sets/edit/{id}', [LegoSetController::class, 'edit'])->name('admin.lego_sets.edit')->middleware('auth')->middleware('admin');
 
@@ -85,6 +87,9 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/admin/lego_series', [AdminController::class, 'indexSeries'])->name('admin.lego_series.index')->middleware('auth')->middleware('admin');;
     Route::post('/admin/lego_series/create', [AdminController::class, 'storeSeries'])->name('admin.lego_series.store')->middleware('auth')->middleware('admin');;
+
+    Route::get('/admin/address', [AdminController::class, 'indexAddress'])->name('admin.address.index')->middleware('auth')->middleware('admin');;
+    Route::post('/admin/address/create', [AdminController::class, 'storeAddress'])->name('admin.address.store')->middleware('auth')->middleware('admin');;
 
     Route::get('/admin/orders', [OrderAdminController::class, 'index'])->name('admin.orders.index')->middleware('auth')->middleware('admin');
     Route::put('/admin/orders/{order}/status', [OrderAdminController::class, 'updateStatus'])->name('admin.orders.updateStatus')->middleware('auth')->middleware('admin');

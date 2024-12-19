@@ -15,24 +15,41 @@
     <div class="cart-layout">
         <!-- Колонка: Моя корзина -->
         <div class="cart-column">
-            @foreach($cartItems as $item)
+            <!-- Товары в наличии -->
+            @foreach($inStockItems as $item)
                 <div class="cart-item">
-
                     <img src="{{ asset('storage/' . $item->legoSet->images->first()->image_url) }}" alt="{{ $item->legoSet->name }}" class="item-image">
                     <div class="item-details">
-                        <h4>{{ $item->legoSet->name }}</h4>
+                        <h4>LEGO {{$item->legoSet->series->name}} {{ $item->legoSet->name }}</h4>
                         <p>Цена: {{ $item->legoSet->price }} ₽</p>
-                        <form action="{{ route('cart.update', $item) }}" method="POST"  class="quantity-form">
+                        <form action="{{ route('cart.update', $item) }}" method="POST" class="quantity-form">
                             @csrf
-                            <label for="quantity-{{ $item->id }}">Количество:</label>
-                            <select name="quantity" id="quantity-{{ $item->id }}" onchange="this.form.submit()" class="quantity-selector">
-                                @for ($i = 1; $i <= 10; $i++)
-                                    <option value="{{ $i }}" {{ $item->quantity == $i ? 'selected' : '' }}>{{ $i }}</option>
-                                @endfor
-                            </select>
-
+                            <label for="quantity">Количество:</label>
+                            <input type="number" name="quantity" id="quantity-{{ $item->id }}"
+                                   value="{{ $item->quantity }}"
+                                   min="1" max="10"
+                                   onchange="this.form.submit()"
+                                   class="quantity-input">
                         </form>
-                        <form action="{{ route('cart.destroy', $item) }}" method="POST">
+                        <form action="{{ route('cart.destroy', $item) }}" method="POST" class="delete">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="delete-btn">Удалить</button>
+                        </form>
+                    </div>
+                </div>
+            @endforeach
+
+            <!-- Товары без наличия -->
+            @foreach($outOfStockItems as $item)
+                <div class="cart-item out-of-stock">
+                    <img src="{{ asset('storage/' . $item->legoSet->images->first()->image_url) }}" alt="{{ $item->legoSet->name }}" class="item-image">
+                    <div class="item-details">
+                        <h4>LEGO {{$item->legoSet->series->name}} {{ $item->legoSet->name }}</h4>
+                        <p>Цена: {{ $item->legoSet->price }} ₽</p>
+                        <p class="out-of-stock-text">Товара нет в наличии</p>
+                        <p>Количество: 0</p>
+                        <form action="{{ route('cart.destroy', $item) }}" method="POST" class="delete">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="delete-btn">Удалить</button>
@@ -42,14 +59,21 @@
             @endforeach
         </div>
 
+
         <!-- Колонка: Оформление заказа -->
-        @if(count($cartItems) != 0)
-            <div class="checkout-column">
-                <h3>Товары ({{ count($cartItems) }})</h3>
-                <p>Итого: {{ $cartTotal }} ₽</p>
-                <a href="{{route('order')}}">
-                    <button class="main-button">Оформить заказ</button>
-                </a>
+        @if(count($inStockItems) != 0)
+            <div>
+                <div class="checkout-column">
+                    <h3>Товары ({{ count($inStockItems) }})</h3>
+                    <div class="price">
+                        <p><b>Итого: {{ $cartTotal }} </b></p>
+                        <p>Товары в корзине на сумму: {{ $totalPrice }} ₽</p>
+                        <p>Скидка: {{ $totalPrice -  $cartTotal }} ₽</p>
+                    </div>
+                    <a href="{{route('order')}}">
+                        <button class="main-button">Оформить заказ</button>
+                    </a>
+                </div>
             </div>
         @else
             <div class="checkout-column">
@@ -65,4 +89,5 @@
             <p>Спасибо за выбор нашего магазина!</p>
         </div>
     </div>
+
 @endsection

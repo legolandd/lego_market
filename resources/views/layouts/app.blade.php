@@ -16,20 +16,20 @@
     <div class="container">
         <div class="header_wrapper">
             <div class="logo">
-                <a href="/"><img src="{{asset('lego_images/logo.svg')}}"></a>
+                <a href="/">
+                    <img src="{{asset('lego_images/logo.svg')}}">
+                </a>
             </div>
-            <div class="search">
-                <form method="GET" action="{{ route('lego_sets.index') }}">
-                    <input type="text" name="search" class="search-input" placeholder="Найти наборы или серии...">
-                    <button type="submit" class="search-button">
-                        <img src="{{ asset('lego_images/search.svg') }}" class="search-img" alt="Искать">
-                    </button>
-                </form>
-            </div>
+
+            <form method="GET" action="{{ route('lego_sets.index') }}" class="search">
+                <input type="search" name="search" class="search-input" placeholder="Найти наборы или серии...">
+                <button type="submit" class="search-button"><img src="{{asset('lego_images/search.svg')}}" alt="Search"></button>
+            </form>
+
             <div class="icons">
                 <div class="icon phone" data-tooltip="Контактный номер">
                     <img src="{{asset('lego_images/phone.svg')}}" class="phone-img">
-                    <p>8(900)999-99-99</p>
+                    <a href="tel:89009999999">8(900)999-99-99</a>
                 </div>
                 <div class="icon favorite" data-tooltip="Избранное">
                     <a href="{{route('favorites.index')}}"><img src="{{asset('lego_images/favorite.svg')}}"></a>

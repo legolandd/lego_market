@@ -10,7 +10,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $orders = Order::where('user_id', $user->id)->get();
+        $orders = Order::where('user_id', $user->id)->paginate(5);
         $ordersCount = Order::where('user_id', $user->id)->count();
         return view('profile.index', compact('orders', 'ordersCount'));
     }

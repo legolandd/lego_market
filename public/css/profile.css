@@ -1,28 +1,32 @@
 .profile-container {
     display: grid;
     grid-template-columns: 1fr 3fr;
+    gap: 20px;
+    align-items: start;
 }
 
 .title {
     font-size: 32px;
-    margin-bottom: 20px;
     font-weight: 500;
 }
 
-.text{
+.text {
     font-size: 20px;
 }
 
 /* Сайдбар левый */
 .sidebar {
-    margin-right: 30px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: flex-start;
 }
 .sidebar ul {
     list-style: none;
     padding: 0;
-}
-.sidebar ul li {
-    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 .sidebar ul li a {
     text-decoration: none;
@@ -32,40 +36,54 @@
     color: var(--red);
 }
 
+.logout {
+    padding: 10px 30px;
+    background: var(--red);
+    border-radius: 10px;
+    font-weight: 600;
+    color: white;
+    transition: all .3s;
+}
+.logout:hover {
+    background: #ff7171;
+}
+
 /* Ссылки-переключатели контента */
 .tab-content {
     display: none;
 }
 .tab-content.active {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 /* Форма изменения профиля */
+
 .profile-form {
     border: 1px solid #ddd;
-    padding: 40px 100px;
-    border-radius: 8px;
+    padding: 40px;
+    border-radius: 10px;
 }
-.profile-form fieldset {
-    border: none;
-    margin: 0;
-    padding: 0;
-}
-.profile-form legend {
-    font-size: 24px;
-    margin-bottom: 30px;
-    font-weight: 600;
+.profile-form-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
 }
 
-.input-group{
-    display: flex;
-    margin-bottom: 50px;
+.input-group {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
     align-items: center;
 }
-.input-group label {
-    display: block;
-    width: 40%;
- }
+
+.checkout-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 .profile-form input[type="text"],
 .profile-form input[type="email"],
 .profile-form input[type="tel"] {

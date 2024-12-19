@@ -24,6 +24,40 @@
         </button>
     </div>
 
+    <h1 class="title">Распрадажа</h1>
+    <div class="lego-slider-container">
+        <button class="slider-btn prev">
+            <img src="{{ asset('lego_images/main-slider-arrow-prev-black.svg') }}" alt="prev">
+        </button>
+        <div class="slider-wrapper">
+            @foreach($sales as $sale)
+                <div class="catalog-item slider-item">
+                    <x-legoSets :legoSet="$sale"/>
+                </div>
+            @endforeach
+        </div>
+        <button class="slider-btn next">
+            <img src="{{ asset('lego_images/main-slider-arrow-next-black.svg') }}" alt="next">
+        </button>
+    </div>
+
+    <h1 class="title">Новинки</h1>
+    <div class="lego-slider-container">
+        <button class="slider-btn prev">
+            <img src="{{ asset('lego_images/main-slider-arrow-prev-black.svg') }}" alt="prev">
+        </button>
+        <div class="slider-wrapper">
+            @foreach($news as $new)
+                <div class="catalog-item slider-item">
+                    <x-legoSets :legoSet="$new"/>
+                </div>
+            @endforeach
+        </div>
+        <button class="slider-btn next">
+            <img src="{{ asset('lego_images/main-slider-arrow-next-black.svg') }}" alt="next">
+        </button>
+    </div>
+
     <div class="sort">
         <h1 class="title">Каталог конструкторов лего</h1>
         <div class="sort-dropdown">
@@ -75,7 +109,9 @@
                 <div class="filter-section">
                     <h4 class="filter-title">
                         Серия
-                        <span class="arrow"><img src="{{asset('lego_images/filter-arrow.svg')}}"></span>
+                        <span class="arrow">
+                            <img src="{{asset('lego_images/filter-arrow.svg')}}" alt="">
+                        </span>
                     </h4>
                     <div class="filter-content">
                         @foreach($series as $serie)
@@ -148,55 +184,6 @@
     @endif
     <script src="{{asset('js/filters-submit.js')}}"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const sliderWrapper = document.querySelector('.slider-wrapper');
-            const items = document.querySelectorAll('.slider-item');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-
-            let currentIndex = 0;
-            let autoSlideInterval;
-
-            const updateSlider = () => {
-                const itemWidth = items[0].clientWidth;
-                sliderWrapper.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
-            };
-
-            const nextSlide = () => {
-                currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
-                updateSlider();
-            };
-
-            const startAutoSlide = () => {
-                stopAutoSlide(); // Останавливаем предыдущий интервал, если он есть
-                autoSlideInterval = setInterval(nextSlide, 10000); // Интервал 20 секунд
-            };
-
-            const stopAutoSlide = () => {
-                if (autoSlideInterval) {
-                    clearInterval(autoSlideInterval);
-                }
-            };
-
-            prevBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
-                updateSlider();
-                startAutoSlide(); // Перезапускаем автоматическую смену
-            });
-
-            nextBtn.addEventListener('click', () => {
-                nextSlide();
-                startAutoSlide(); // Перезапускаем автоматическую смену
-            });
-
-            // Обновляем слайдер при изменении размера окна
-            window.addEventListener('resize', updateSlider);
-
-            // Запускаем автоматическую смену слайдов
-            startAutoSlide();
-        });
-
-
         document.querySelectorAll('.filter-title').forEach(function(title) {
             title.addEventListener('click', function() {
                 var section = this.closest('.filter-section');
@@ -250,8 +237,7 @@
             // Инициализация при загрузке страницы
             updateSelectedFilters();
         });
-
-
-
     </script>
+
+    <script src="{{ asset('js/slider.js') }}"></script>
 @endsection

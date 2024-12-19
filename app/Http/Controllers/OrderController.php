@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\CartItem;
+use App\Models\LegoSet;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
@@ -12,12 +14,17 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $cartItems = CartItem::all();
+        $addresses = Address::all();
+        $cartItems = CartItem::whereHas('legoSet', function ($query) {
+            $query->where('stock', '>', 0);
+        })->get();
+
         $user = Auth::user();
         $total = collect($cartItems)->sum(fn($item) => $item->legoset->price * $item['quantity']);
         $deliveryCost = 390;
 
         return view('order.index', [
+            'addresses' => $addresses,
             'user' => $user,
             'cartItems' => $cartItems,
             'total' => $total + $deliveryCost,
@@ -27,25 +34,48 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $cartItems = CartItem::all();
+        $cartItems = CartItem::where('user_id', Auth::id())
+            ->whereHas('legoSet', function ($query) {
+                $query->where('stock', '>', 0);
+            })
+            ->get();
+
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('cart.index')->with('error', 'В корзине нет товаров, доступных для заказа.');
+        }
+
         $total = collect($cartItems)->sum(fn($item) => $item->legoSet->price * $item['quantity']);
         $deliveryCost = 390;
-            $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string',
-            'email' => 'required|email',
-            'delivery_method' => 'required|in:courier,pickup',
-            'address.city' => 'required_if:delivery_method,courier|string',
-            'address.street' => 'required_if:delivery_method,courier|string',
-            'address.house' => 'required_if:delivery_method,courier|string',
-            'address.flat' => 'nullable|string',
-            'delivery_date' => 'required|date',
-            'delivery_time' => 'required|string',
-            'payment_method' => 'required|in:cash,card',
-        ]);
 
-        $fullAddress = null;
-        if ($validated['delivery_method'] === 'courier') {
+        if ($request->delivery_method == 'courier') {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'phone' => 'required|string',
+                'email' => 'required|email',
+                'delivery_method' => 'required|in:courier,pickup',
+                'address.city' => 'required_if:delivery_method,courier|string',
+                'address.street' => 'required_if:delivery_method,courier|string',
+                'address.house' => 'required_if:delivery_method,courier|string',
+                'address.flat' => 'nullable|string',
+                'delivery_date' => 'required|date',
+                'delivery_time' => 'required|string',
+                'payment_method' => 'required|in:cash,card',
+            ]);
+            }
+        else {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'phone' => 'required|string',
+                'email' => 'required|email',
+                'delivery_method' => 'required|in:courier,pickup',
+                'pickupAddress' => 'required_if:delivery_method,pickup|string|max:255',
+                'delivery_date' => 'required|date',
+                'delivery_time' => 'required|string',
+                'payment_method' => 'required|in:cash,card',
+            ]);
+            }
+
+        if ($validated['delivery_method'] == 'courier') {
             $fullAddress = $validated['address']['city'] . ', ' .
                 $validated['address']['street'] . ', ' .
                 'дом ' . $validated['address']['house'];
@@ -54,6 +84,8 @@ class OrderController extends Controller
                 $fullAddress .= ', кв. ' . $validated['address']['flat'];
             }
         }
+        else
+            $fullAddress = Address::findOrFail($validated['pickupAddress'])->address;
 
         $order = Order::create([
             'user_id' => Auth::id(),
@@ -67,12 +99,27 @@ class OrderController extends Controller
 
         // Добавление товаров в заказ
         foreach ($cartItems as $cartItem) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'lego_set_id' => $cartItem->lego_set_id,
-                'quantity' => $cartItem->quantity,
-                'price' => $cartItem->legoSet->price,
-            ]);
+            $legoSet = LegoSet::findOrFail($cartItem->lego_set_id);
+            if ($legoSet->stock - $cartItem->quantity >= 0) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'lego_set_id' => $cartItem->lego_set_id,
+                    'quantity' => $cartItem->quantity,
+                    'price' => $cartItem->legoSet->price,
+                ]);
+
+                $legoSet->stock -= $cartItem->quantity;
+                $legoSet->save();
+            }
+            else {
+                $order->delete();
+                return redirect()->route('order')->with('error', 'Заказ не создан, товара не достаточно');
+            }
+
+        }
+
+        foreach ($cartItems as $cartItem) {
+            $cartItem->delete();
         }
 
         session()->forget('cart');
