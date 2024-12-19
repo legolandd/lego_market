@@ -113,12 +113,19 @@
     position: sticky;
     display: flex;
     flex-direction: column;
-    gap:10px;
+    gap:15px;
     background: #f8f9fa;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
+}
+
+.price {
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+    text-align: left;
 }
 
 .main-button a{

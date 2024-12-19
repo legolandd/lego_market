@@ -49,6 +49,12 @@ h1 {
 .buttons{
     display: flex;
     gap:15px;
+    align-items: center;
+    justify-content:space-between;
+}
+
+.buttons form.search {
+    width: 40%;
 }
 
 .table {

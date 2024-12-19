@@ -11,10 +11,22 @@ use Illuminate\Http\Request;
 
 class LegoSetController extends Controller
 {
-    public function index(){
-        $legoSets = LegoSet::OrderBy('created_at', 'desc')->get();
-        return view ('admin.lego_sets.index', compact('legoSets'));
+    public function index(Request $request)
+    {
+        $search = $request->query('search');
+
+        $legoSets = LegoSet::when($search, function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhereHas('series', function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%');
+                });
+        })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin.lego_sets.index', compact('legoSets', 'search'));
     }
+
 
     public function show(){
         $series = LegoSeries::all();

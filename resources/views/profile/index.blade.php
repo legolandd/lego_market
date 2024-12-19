@@ -2,6 +2,7 @@
 @section('title', 'Админ.Заказы')
 <head>
     <link rel="stylesheet" href="{{asset('css/profile.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 @section('content')
     <div class="profile-container">
@@ -114,6 +115,7 @@
                             </tbody>
                         </table>
                     @endforeach
+                        {{ $orders->links() }}
                 </div>
             </div>
         </main>

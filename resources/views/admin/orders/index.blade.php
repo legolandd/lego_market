@@ -54,14 +54,28 @@
                     <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="status-form">
                         @csrf
                         @method('PUT')
-                        <select name="status" onchange="this.form.submit()">
-                            <option value="new" {{ $order->status === 'new' ? 'selected' : '' }}>Новый</option>
-                            <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>Собран</option>
-                            <option value="shipped" {{ $order->status === 'shipped' ? 'selected' : '' }}>Отправлен</option>
-                            <option value="delivered" {{ $order->status === 'delivered' ? 'selected' : '' }}>Доставлен</option>
-                        </select>
+
+                        @php
+                            // Определяем следующий статус в зависимости от текущего
+                            $statusMap = [
+                                'new' => ['value' => 'processing', 'label' => 'Собрать'],
+                                'processing' => ['value' => 'shipped', 'label' => 'Отправить'],
+                                'shipped' => ['value' => 'delivered', 'label' => 'Доставить'],
+                            ];
+                        @endphp
+
+                            <!-- Отображаем кнопку только если есть следующий статус -->
+                        @if (array_key_exists($order->status, $statusMap))
+                            @php
+                                $nextStatus = $statusMap[$order->status];
+                            @endphp
+                            <button type="submit" name="status" value="{{ $nextStatus['value'] }}" class="btn btn-primary">
+                                {{ $nextStatus['label'] }}
+                            </button>
+                        @endif
                     </form>
                 </td>
+
             </tr>
         @endforeach
         </tbody>

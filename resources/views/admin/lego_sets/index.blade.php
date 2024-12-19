@@ -6,9 +6,17 @@
 @section('content')
 <h1>LEGO Наборы</h1>
 <div class="buttons">
-<a href="{{ route('admin.lego_sets.create') }}" class="btn btn-primary">Создать новый набор</a>
-<a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Вернуться к админ-панели</a>
+    <div>
+        <a href="{{ route('admin.lego_sets.create') }}" class="btn btn-primary">Создать новый набор</a>
+        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Вернуться к админ-панели</a>
+    </div>
+    <form action="{{ route('admin.lego_sets.index') }}" method="GET" class="search">
+        <input type="search" name="search" value="{{ $search ?? '' }}" placeholder="Поиск по названию или серии" class="search-input">
+        <button type="submit" class="search-button"><img src="{{asset('lego_images/search.svg')}}" alt="Search"></button>
+    </form>
 </div>
+
+
 
 <table class="table mt-3">
     <thead>

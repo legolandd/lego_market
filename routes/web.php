@@ -76,7 +76,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware('admin')->group(function () {
 // Админ-панель
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard')->middleware('auth');
-    Route::get('/admin/lego_sets', [LegoSetController::class, 'index'])->name('admin.lego_sets.index')->middleware('auth')->middleware('admin');
+    Route::get('/admin/lego_sets', [LegoSetController::class, 'index'])->name('admin.lego_sets.index')->middleware('auth');
+
     Route::get('/admin/lego_sets/create', [LegoSetController::class, 'show'])->name('admin.lego_sets.create')->middleware('auth')->middleware('admin');
     Route::get('/admin/lego_sets/edit/{id}', [LegoSetController::class, 'edit'])->name('admin.lego_sets.edit')->middleware('auth')->middleware('admin');
 
