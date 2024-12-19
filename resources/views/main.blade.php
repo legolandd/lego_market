@@ -32,7 +32,7 @@
         <div class="slider-wrapper">
             @foreach($sales as $sale)
                 <div class="catalog-item slider-item">
-                    <x-legoSets :legoSet="$sale"/>
+                    <x-legoSet :legoSet="$sale"/>
                 </div>
             @endforeach
         </div>
@@ -49,7 +49,7 @@
         <div class="slider-wrapper">
             @foreach($news as $new)
                 <div class="catalog-item slider-item">
-                    <x-legoSets :legoSet="$new"/>
+                    <x-legoSet :legoSet="$new"/>
                 </div>
             @endforeach
         </div>
