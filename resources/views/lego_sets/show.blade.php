@@ -179,7 +179,6 @@
                         @endif
 
                         @if (auth()->user() && auth()->user()->role === 'admin')
-                            <!-- Форма ответа администратора -->
                             <form action="{{ route('reviews.reply', $review) }}" method="POST">
                                 @csrf
                                 <textarea name="reply" rows="3" class="admin-reply-textarea" placeholder="Напишите ответ...">{{ $review->adminReply->reply ?? '' }}</textarea>
