@@ -24,21 +24,4 @@ class ReviewController extends Controller
 
         return redirect()->route('lego_sets.show', $legoSet)->with('success', 'Отзыв добавлен.');
     }
-
-    public function reply(Request $request, Review $review)
-    {
-        $validated = $request->validate([
-            'reply' => 'required|string|max:500'
-        ]);
-
-        $adminReply = $review->adminReply;
-
-        if ($adminReply) {
-            $adminReply->update($validated);
-        } else {
-            $review->adminReply()->create($validated);
-        }
-
-        return redirect()->back()->with('success', 'Ответ администратора сохранён.');
-    }
 }
