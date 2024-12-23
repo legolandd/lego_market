@@ -19,4 +19,9 @@ class Review extends Model
     public function legoSet(){
         return $this->belongsTo(LegoSet::class);
     }
+
+    public function adminReply()
+    {
+        return $this->hasOne(AdminReply::class);
+    }
 }

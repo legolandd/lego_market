@@ -163,11 +163,29 @@
                         <div class="minuses review-blocks">
                             <p><b>Минусы</b></p>
                             <span>{{ $review->cons }}</span>
-                        </div><div class="coments review-blocks">
-                            <p><b>Коментарий</b></p>
+                        </div>
+                        <div class="comments review-blocks">
+                            <p><b>Комментарий</b></p>
                             <span>{{ $review->comment }}</span>
                         </div>
                         <span class="first-name">{{ $review->user->name }}</span>
+
+                        <!-- Ответ администратора -->
+                        @if ($review->adminReply)
+                            <div class="admin-reply">
+                                <p><b>Ответ администратора:</b></p>
+                                <span>{{ $review->adminReply->reply }}</span>
+                            </div>
+                        @endif
+
+                        @if (auth()->user() && auth()->user()->role === 'admin')
+                            <!-- Форма ответа администратора -->
+                            <form action="{{ route('reviews.reply', $review) }}" method="POST">
+                                @csrf
+                                <textarea name="reply" rows="3" class="admin-reply-textarea" placeholder="Напишите ответ...">{{ $review->adminReply->reply ?? '' }}</textarea>
+                                <button type="submit" class="btn-primary">Сохранить</button>
+                            </form>
+                        @endif
                     </div>
                 @endforeach
             </div>
