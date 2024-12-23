@@ -67,7 +67,6 @@ Route::middleware('auth')->group(function () {
 
     // Отзыв
     Route::post('/review/{legoSet}', [ReviewController::class, 'store'])->name('reviews.store');
-    Route::post('/reviews/{review}/reply', [ReviewController::class, 'reply'])->name('reviews.reply')->middleware('auth', 'admin');
 
     // Оформление заказа
     Route::get('/order', [OrderController::class, 'index'])->name('order');

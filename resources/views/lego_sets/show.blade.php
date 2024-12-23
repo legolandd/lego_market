@@ -163,9 +163,8 @@
                         <div class="minuses review-blocks">
                             <p><b>Минусы</b></p>
                             <span>{{ $review->cons }}</span>
-                        </div>
-                        <div class="comments review-blocks">
-                            <p><b>Комментарий</b></p>
+                        </div><div class="coments review-blocks">
+                            <p><b>Коментарий</b></p>
                             <span>{{ $review->comment }}</span>
                         </div>
                         <span class="first-name">{{ $review->user->name }}</span>
