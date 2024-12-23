@@ -168,6 +168,22 @@
                             <span>{{ $review->comment }}</span>
                         </div>
                         <span class="first-name">{{ $review->user->name }}</span>
+
+                        <!-- Ответ администратора -->
+                        @if ($review->adminReply)
+                            <div class="admin-reply">
+                                <p><b>Ответ администратора:</b></p>
+                                <span>{{ $review->adminReply->reply }}</span>
+                            </div>
+                        @endif
+
+                        @if (auth()->user() && auth()->user()->role === 'admin')
+                            <form action="{{ route('reviews.reply', $review) }}" method="POST">
+                                @csrf
+                                <textarea name="reply" rows="3" class="admin-reply-textarea" placeholder="Напишите ответ...">{{ $review->adminReply->reply ?? '' }}</textarea>
+                                <button type="submit" class="btn-primary">Сохранить</button>
+                            </form>
+                        @endif
                     </div>
                 @endforeach
             </div>
